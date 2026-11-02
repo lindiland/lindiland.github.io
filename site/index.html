@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="es" data-fondo="crema">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lindi · todo lo lindo de la infancia</title>
+<meta name="description" content="Juguetes y accesorios para la infancia, hechos a mano en Lima. Arma tu pedido y envíalo por WhatsApp.">
+<meta name="theme-color" content="#FFF8EC">
+<meta property="og:title" content="Lindi · todo lo lindo de la infancia">
+<meta property="og:description" content="Accesorios · juego · creatividad · espacios.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 64'%3E%3Crect x='13' y='26' width='14' height='37' rx='7' fill='%23E3714F'/%3E%3Ccircle cx='20' cy='12.5' r='11.5' fill='%23EDBA3E'/%3E%3Ccircle cx='15.6' cy='13.5' r='1.5' fill='%234A3732'/%3E%3Ccircle cx='24.4' cy='13.5' r='1.5' fill='%234A3732'/%3E%3Cpath d='M17 17q3 2.6 6 0' stroke='%234A3732' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gluten:wght@600;800&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Diseño: handoff de Claude Design (Inicio C · Tienda) sobre el Manual de Marca v4.
+   Fondo crema por defecto (decisión de la dueña); el ajuste "fondo" de la hoja permite blanco o mixto. */
+:root{
+  color-scheme:light;
+  --crema:#FFF8EC;--cacao:#4A3732;--cacao-2:#5E4E46;--cacao-3:#6B5A52;--gris:#8A7A70;--linea:#EFE4D3;--linea-pie:#E3D6C2;
+  --coral:#E3714F;--coral-f:#C85A3C;--coral-p:#F8D3C8;
+  --amarillo:#EDBA3E;--amarillo-f:#D29F26;--amarillo-p:#F8E6B0;
+  --azul:#6690D2;--azul-f:#4A74B7;--azul-p:#D3E1F4;
+  --verde:#62A05A;--verde-f:#4B8745;--verde-p:#D5E7CC;
+  --rosa:#DE7596;--rosa-f:#C2547A;--rosa-p:#F9DCE5;
+  --fondo:#FFFFFF;--tarjeta:#FFFFFF;--suave:#FBF6EE;
+  --titulo:'Gluten',cursive;--texto:'Nunito',system-ui,sans-serif;
+  --sombra:0 24px 40px -32px rgba(74,55,50,.5);
+}
+html[data-fondo="crema"]{--fondo:#FFF8EC;--tarjeta:#FFFDF8;--suave:#F4ECE0}
+/* Mixto: página blanca (fotos y bloques de color resaltan) con tarjetas crema (calidez de marca). */
+html[data-fondo="mixto"]{--fondo:#FFFFFF;--tarjeta:#FFF8EC;--suave:#FBF3E6}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--fondo);color:var(--cacao);font:500 16px/1.5 var(--texto);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.has-bubble{padding-bottom:84px}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--azul-f);outline-offset:2px;border-radius:10px}
+h1,h2,h3{font-family:var(--titulo);font-weight:800;line-height:1;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.sec{padding:64px 0 24px}
+.h2{font-size:clamp(34px,4.4vw,56px)}
+.lead{font-size:18px;color:var(--cacao-2)}
+.kicker{font-size:13px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.row-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:28px}
+.row-head>div{display:flex;flex-direction:column;gap:8px}
+.more{font-weight:900;border-bottom:2px solid var(--cacao);padding-bottom:2px;white-space:nowrap}
+.more:hover{color:var(--coral-f);border-color:var(--coral-f)}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 22px;border-radius:999px;border:0;background:var(--cacao);color:var(--crema);font-weight:900;font-size:16px;text-align:center;line-height:1.15;transition:background .2s,transform .15s}
+.btn:hover{background:var(--coral-f);color:var(--crema)}
+.btn.light{background:var(--crema);color:var(--cacao)}
+.btn.light:hover{background:var(--cacao);color:var(--crema)}
+.btn.yellow{background:var(--amarillo);color:var(--cacao)}
+.btn.yellow:hover{background:var(--crema)}
+.btn.ring{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+.btn.ring:hover{background:var(--cacao);color:var(--crema);box-shadow:none}
+.btn.big{min-height:60px;font-size:18px;width:100%}
+.btn[disabled]{opacity:.55;cursor:default}
+
+/* Logo «lindi»: cada letra en su color; el punto de la última «i» es Lindi. */
+.logo{display:inline-block;font-family:var(--titulo);font-weight:800;line-height:1;letter-spacing:-.02em;white-space:nowrap;font-size:var(--fs,56px)}
+.logo .l1,.logo .l5{color:var(--coral)}.logo .l2{color:var(--amarillo)}.logo .l3{color:var(--azul)}.logo .l4{color:var(--verde)}
+.logo.crema span{color:var(--crema)}
+.logo .l5{position:relative;display:inline-block}
+.logo .dot{position:absolute;left:50%;top:-.04em;width:.27em;height:.27em;margin-left:-.135em;border-radius:50%;background:var(--amarillo)}
+.logo.crema .dot{background:var(--crema)}
+.logo .dot i{position:absolute;top:.134em;width:.032em;height:.032em;border-radius:50%;background:var(--cacao)}
+.logo .dot i:first-child{left:.066em}.logo .dot i+i{right:.066em}
+.logo .dot b{position:absolute;left:.088em;top:.17em;width:.094em;height:.042em;border:.024em solid var(--cacao);border-top:none;border-radius:0 0 .094em .094em}
+
+/* Personaje Lindi (componente LindiChar del handoff, en HTML/CSS) */
+.char{display:inline-flex;flex-direction:column;align-items:center;position:relative;padding:38px 16px 24px;pointer-events:none}
+.char *{position:absolute;display:block}
+.char .fig{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center}
+.char .head{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;background:#EDBE4C}
+.char .body{position:relative;width:40px;height:70px;border-radius:20px 20px 17px 17px/24px 24px 18px 18px}
+.char .shadow{left:50%;bottom:2px;width:44px;height:8px;margin-left:-22px;border-radius:50%;background:rgba(74,55,50,.13)}
+
+/* Barra de avisos y navegación */
+.ann{background:var(--cacao);color:var(--crema);font-size:14px;font-weight:800;letter-spacing:.04em;text-align:center;padding:10px 16px;display:flex;justify-content:center;align-items:center;gap:10px;min-height:40px}
+.ann button{background:none;border:0;color:var(--crema);opacity:.7;font-size:18px;min-width:44px;min-height:44px;margin:-8px 0;padding:0}
+.nav{position:sticky;top:0;z-index:40;background:var(--fondo);box-shadow:0 1.5px 0 var(--linea)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:76px}
+.nav .home{display:flex;align-items:flex-end;padding-top:6px}
+.links{display:flex;align-items:center;gap:24px;font-weight:800}
+.links a:not(.btn):hover{color:var(--coral-f)}
+.menu-btn{display:none;min-height:44px;padding:0 16px;border-radius:999px;border:0;box-shadow:inset 0 0 0 2px var(--linea);background:var(--tarjeta);font-weight:900}
+@media (max-width:760px){
+  .nav .wrap{min-height:64px}
+  .nav .logo{--fs:42px!important}
+  .menu-btn{display:inline-flex;align-items:center}
+  .links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--fondo);box-shadow:0 1.5px 0 var(--linea),0 20px 30px -20px rgba(74,55,50,.4);flex-direction:column;align-items:stretch;gap:0;padding:8px 24px 20px}
+  .links.open{display:flex}
+  .links a:not(.btn){min-height:52px;display:flex;align-items:center;font-size:18px;border-bottom:1.5px solid var(--linea)}
+  .links .btn{margin-top:14px}
+}
+
+/* Hero carrusel */
+.hero{position:relative;overflow:hidden;transition:background .5s,color .5s}
+.hero .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center;min-height:540px;padding-top:48px;padding-bottom:44px}
+.hero .txt{display:flex;flex-direction:column;gap:18px}
+.hero h1{font-size:clamp(44px,5.6vw,80px);line-height:.98}
+.hero .sub{font-size:19px;line-height:1.5;font-weight:700;max-width:480px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;padding-top:6px}
+.hero .cta1{padding:18px 28px;font-size:17px;box-shadow:0 8px 0 -2px rgba(74,55,50,.28)}
+.hero .cta1:hover{transform:translateY(-2px)}
+.hero .cta2{padding:18px 26px;font-size:17px}
+.dots{display:flex;align-items:center;gap:8px;padding-top:10px}
+.dots button{width:10px;height:10px;border-radius:999px;border:0;padding:0;background:currentColor;opacity:.45;transition:all .3s;position:relative}
+.dots button::after{content:"";position:absolute;inset:-17px -8px}
+.dots button[aria-current="true"]{width:34px;opacity:1}
+.dots .pause{width:auto;height:auto;min-width:44px;min-height:44px;margin:-17px 0 -17px 4px;background:none;color:inherit;opacity:.75;font-size:12px;font-weight:900;letter-spacing:-.1em}
+.dots .pause::after{display:none}
+.hero .pic{position:relative;height:clamp(360px,36vw,460px)}
+.hero .frame{position:absolute;left:56px;right:0;top:0;bottom:0;border-radius:28px;overflow:hidden;box-shadow:0 0 0 8px rgba(255,248,236,.9)}
+.sticker{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 10px 20px -8px rgba(74,55,50,.45)}
+.hero .sticker{right:-10px;top:-18px;width:124px;height:124px;transform:rotate(-8deg);gap:2px}
+.hero .sticker b{font-family:var(--titulo);font-weight:800;font-size:34px;line-height:1}
+.hero .sticker small{font-size:9.5px;font-weight:900;letter-spacing:.08em;line-height:1.2;max-width:90px}
+.hero .lindi{position:absolute;left:-14px;bottom:-12px}
+@media (max-width:760px){
+  .hero .wrap{min-height:0;gap:36px;padding-top:36px}
+  .hero .pic{height:300px;margin:0 6px 6px 0}
+  .hero .frame{left:40px}
+  .hero .sticker{right:-4px;top:-14px;width:100px;height:100px}
+  .hero .sticker b{font-size:27px}
+  .hero .lindi{left:-18px;zoom:.85}
+}
+
+/* Fotos y rayitas (sin foto: rayitas del ámbito, nunca un hueco) */
+.ph{position:relative;overflow:hidden;background:var(--suave)}
+.ph>img{width:100%;height:100%;object-fit:cover}
+.rayas{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,var(--rp,var(--amarillo-p)) 0 var(--rw,22px),var(--fondo) var(--rw,22px) calc(var(--rw,22px)*2.05))}
+.ph .rayas+.char,.ph .ph-char{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%)}
+
+/* Bienvenida y bloques de ámbito */
+.welcome{max-width:880px;margin:0 auto;padding:72px 24px 8px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center}
+.welcome h2{color:var(--coral-f)}
+.welcome p{font-size:19px;color:var(--cacao-2)}
+.blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;padding-top:40px}
+.block{position:relative;display:block;height:420px;border-radius:28px;overflow:hidden;transition:transform .2s}
+.block:hover{transform:translateY(-4px)}
+.block .ph{position:absolute;inset:0}
+.block .ph-char{bottom:96px!important}
+.block .plate{position:absolute;left:20px;right:20px;bottom:20px;border-radius:20px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.block .plate b{display:block;font-family:var(--titulo);font-weight:800;font-size:28px;line-height:1}
+.block .plate .btn{min-height:44px;padding:10px 18px;font-size:14px;flex:none}
+@media (max-width:760px){.block{height:340px}}
+
+/* Tarjetas de producto */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:32px 18px;padding-top:10px}
+.grid.small{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+@media (max-width:520px){.grid,.grid.small{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 12px}}
+.card{position:relative;display:flex;flex-direction:column;gap:10px}
+.card .ph{display:block;aspect-ratio:1/1;border-radius:22px;transition:transform .2s;overflow:visible}
+.card .ph .clip{position:absolute;inset:0;border-radius:22px;overflow:hidden}
+.card .ph:hover{transform:translateY(-4px)}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.badge{position:absolute;left:12px;bottom:12px;background:var(--cacao);color:var(--crema);border-radius:999px;padding:6px 12px;font-size:11px;font-weight:900;letter-spacing:.08em}
+.chip{position:absolute;left:12px;top:12px;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.card .sticker{right:-8px;top:-12px;width:78px;height:78px;background:var(--amarillo);color:var(--cacao);transform:rotate(8deg);font-family:var(--titulo);font-weight:800;font-size:22px;line-height:1;padding:6px;box-shadow:0 8px 16px -8px rgba(74,55,50,.5)}
+.card .sticker.long{font-size:14px}
+.card .sticker.xl{font-size:12px}
+.card h3{font-size:23px;line-height:1.05}
+.card .play{font-size:14px;line-height:1.45;color:var(--cacao-2)}
+.add{margin-top:auto;min-height:48px;padding:6px 12px;border-radius:999px;border:0;background:var(--tarjeta);box-shadow:inset 0 0 0 2px var(--cacao);font-weight:900;font-size:14px;line-height:1.15;transition:background .2s}
+.add:hover,.add.on{background:var(--cacao);color:var(--crema)}
+@media (max-width:520px){.card h3{font-size:19px}.card .sticker{width:64px;height:64px;font-size:17px;right:-6px}.card .sticker.long{font-size:12px}.card .sticker.xl{font-size:10px}.card .play{font-size:13px}}
+
+/* Editorial (Navidad + novedad) */
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.ed{position:relative;border-radius:28px;min-height:380px;overflow:hidden;display:flex;flex-direction:column}
+.ed.blue{background:var(--azul);color:var(--crema);padding:36px;padding-right:clamp(36px,12vw,160px);gap:14px}
+.ed .t{font-family:var(--titulo);font-weight:800;font-size:clamp(34px,3.8vw,48px);line-height:1}
+.ed .count{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ed .count span:first-child{background:var(--crema);color:var(--cacao);border-radius:14px;padding:10px 14px;display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:900}
+.ed .count b{font-family:var(--titulo);font-weight:800;font-size:30px;line-height:1}
+.ed .lindi{position:absolute;right:24px;bottom:-6px}
+.ed.news{background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea)}
+.ed.news .top{position:relative;height:130px;flex:none}
+.ed.news .in{padding:28px 36px 36px;padding-right:clamp(36px,12vw,150px);display:flex;flex-direction:column;gap:12px;flex:1}
+.ed.news .t{color:var(--rosa-f);font-size:clamp(30px,3.4vw,44px)}
+.ed .btn{margin-top:auto;align-self:flex-start}
+
+/* ¿Qué buscas hoy? */
+.ambs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:24px 14px}
+@media (max-width:520px){.ambs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.amb{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.amb .ring{width:min(180px,38vw);height:min(180px,38vw);border-radius:50%;background:var(--tarjeta);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;transition:transform .2s}
+.amb:hover .ring{transform:scale(1.04)}
+.amb .ring .char{margin-bottom:-8px;zoom:.72}
+.amb b{font-family:var(--titulo);font-weight:800;font-size:26px;line-height:1}
+.amb small{font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--cacao-3)}
+
+/* Historia */
+.story{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:48px;align-items:center}
+.mosaic{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(320px,34vw,460px)}
+.mosaic .ph{border-radius:24px}
+.mosaic .ph:first-child{grid-row:span 2}
+.story .txt{display:flex;flex-direction:column;gap:18px}
+.story .txt p{font-size:18px;line-height:1.6;color:var(--cacao-2)}
+.story .quote{font-family:var(--titulo);font-weight:600;font-size:24px;line-height:1.25;color:var(--coral-f)!important}
+
+/* Bandas */
+.band{position:relative;border-radius:28px;background:var(--cacao);color:var(--crema);padding:clamp(28px,4vw,48px);padding-right:clamp(28px,16vw,220px);display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.band .t{font-family:var(--titulo);font-weight:800;font-size:clamp(32px,3.8vw,48px);line-height:1;color:var(--amarillo)}
+.band p{font-size:18px;line-height:1.5;font-weight:700;max-width:620px}
+.band .btn{align-self:flex-start}
+.band .lindi{position:absolute;right:clamp(12px,5vw,64px);bottom:-6px}
+@media (max-width:760px){.band{padding-bottom:150px}.band .lindi{right:16px}}
+
+/* Cómo pedir */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+.step{border-radius:22px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea);padding:24px;display:flex;flex-direction:column;gap:10px}
+.step .n{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--titulo);font-weight:800;font-size:26px}
+.step h3{font-size:26px;line-height:1.05}
+.step p{font-size:15px;line-height:1.5;color:var(--cacao-2)}
+.ship{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-radius:22px;background:var(--cacao);color:var(--crema);padding:20px 24px;margin-top:14px;font-weight:700}
+
+/* Redes */
+.social{display:flex;gap:10px;flex-wrap:wrap}
+.feed{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:8px}
+@media (max-width:520px){.feed{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.feed .ph{aspect-ratio:4/5;border-radius:14px}
+
+/* Tienda */
+.page-head{display:flex;flex-direction:column;gap:10px;padding:48px 0 0}
+.page-head h1{font-size:clamp(48px,6vw,80px)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:28px 0 32px}
+.tab{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:0;background:transparent;box-shadow:inset 0 0 0 2px var(--linea);font-weight:900;font-size:15px}
+.tab i{width:12px;height:12px;border-radius:50%}
+.tab[aria-current="page"]{background:var(--cacao);color:var(--crema);box-shadow:none}
+.empty-amb{border-radius:28px;padding:48px 40px 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;overflow:hidden}
+.empty-amb div{display:flex;flex-direction:column;gap:12px;padding-bottom:48px;max-width:560px}
+.empty-amb b{font-family:var(--titulo);font-weight:800;font-size:clamp(30px,4vw,48px);line-height:1}
+.empty-amb p{font-size:17px;line-height:1.5;font-weight:700}
+
+/* Ficha */
+.crumbs{display:flex;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:800;color:var(--cacao-3);padding:32px 0 24px}
+.crumbs a:hover{color:var(--coral-f)}
+.prod{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:48px;align-items:start}
+.gallery{display:flex;flex-direction:column;gap:10px}
+.gallery .main{aspect-ratio:1/1;border-radius:28px}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.thumbs button{position:relative;aspect-ratio:1/1;border-radius:16px;border:0;padding:0;overflow:hidden;background:var(--suave)}
+.thumbs button[aria-current="true"]{box-shadow:0 0 0 3px var(--cacao)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.info{display:flex;flex-direction:column;gap:20px}
+.info .chips{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.info .chips .chip{position:static}
+.info .chips small{font-size:14px;font-weight:800;color:var(--cacao-3)}
+.info h1{font-size:clamp(42px,5vw,68px);line-height:.98}
+.info .price{font-family:var(--titulo);font-weight:800;font-size:38px;line-height:1}
+.info .desc{font-size:18px;line-height:1.55;color:var(--cacao-2)}
+.playbox{border-radius:18px;padding:16px 20px;font-size:17px;font-weight:900;line-height:1.4}
+.buy{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:end}
+@media (max-width:520px){.buy{grid-template-columns:1fr}}
+.lbl{font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--cacao-3);text-transform:uppercase}
+.qty{display:inline-flex;align-items:center;gap:6px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--linea);padding:4px;background:var(--tarjeta)}
+.qty button{width:44px;height:44px;border-radius:50%;border:0;background:none;font-size:22px;font-weight:900}
+.qty button:hover{background:var(--suave)}
+.qty output{min-width:28px;text-align:center;font-family:var(--titulo);font-weight:800;font-size:24px}
+.input{width:100%;min-height:52px;border-radius:14px;border:0;box-shadow:inset 0 0 0 2px var(--linea);background:var(--tarjeta);padding:12px 16px;font-size:16px;font-weight:700;outline:none}
+.input:focus{box-shadow:inset 0 0 0 2px var(--cacao)}
+textarea.input{min-height:90px;resize:vertical}
+.field{display:flex;flex-direction:column;gap:8px}
+.hint{font-size:14px;line-height:1.5;color:var(--cacao-2)}
+.link{align-self:flex-start;font-weight:900;font-size:15px;border:0;border-bottom:2px solid var(--cacao);background:none;padding:12px 0 2px;min-height:44px}
+.link:hover{color:var(--coral-f);border-color:var(--coral-f)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+.fact{border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.4;font-weight:700}
+.fact.strong{box-shadow:inset 0 0 0 2px var(--cacao)}
+.fact.soft{background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea)}
+
+/* Mi pedido */
+.order{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px;align-items:start;padding-bottom:64px}
+.line{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;padding:16px 0;border-bottom:1.5px solid var(--linea)}
+.line .ph{width:84px;height:84px;border-radius:16px}
+.line .name{font-family:var(--titulo);font-weight:800;font-size:22px;line-height:1.05}
+.line .sub{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.line .rm{min-height:44px;border:0;background:none;color:var(--coral-f);font-weight:900}
+.line .field{margin-top:10px}
+.total{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:18px 0}
+.total b{font-family:var(--titulo);font-weight:800;font-size:clamp(24px,6vw,34px);line-height:1;text-align:right}
+.panel{border-radius:24px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea),var(--sombra);padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:16px}
+.panel h2{font-size:30px}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.err{color:var(--coral-f);font-weight:900;min-height:1.5em}
+.notice{border-radius:16px;background:var(--coral-p);padding:12px 16px;font-weight:800;margin-bottom:16px}
+.status{text-align:center;padding:80px 24px;color:var(--cacao-2);font-size:18px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.done{max-width:620px;margin:0 auto;text-align:center;padding:64px 24px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.done h1{font-size:clamp(44px,6vw,64px)}
+
+/* Lindiland */
+.ll-hero{position:relative;height:clamp(380px,40vw,500px);overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 clamp(24px,14vw,180px)}
+.ll-hero .card-c{position:relative;background:var(--fondo);border-radius:32px;padding:clamp(28px,4vw,48px) clamp(28px,5vw,64px);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:0 24px 50px -30px rgba(74,55,50,.45)}
+.ll-hero h1{font-size:clamp(46px,6.4vw,92px);line-height:.95;color:var(--coral-f)}
+.ll-hero .lindi{position:absolute;right:2%;bottom:0}
+@media (max-width:760px){.ll-hero .lindi{display:none}}
+.letter{max-width:760px;margin:0 auto;padding:64px 24px}
+.letter .paper{position:relative;border-radius:24px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea),var(--sombra);padding:clamp(24px,5vw,48px);display:flex;flex-direction:column;gap:20px}
+.letter .body{position:relative;max-height:300px;overflow:hidden;display:flex;flex-direction:column;gap:20px;transition:max-height .5s ease}
+.letter .body.open{max-height:2600px}
+.letter .body:not(.open)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(rgba(255,255,255,0),var(--tarjeta))}
+.letter p{font-weight:600;font-size:clamp(17px,1.7vw,19px);line-height:1.6}
+.letter p.hi{font-family:var(--titulo);font-weight:800;font-size:clamp(24px,2.8vw,32px);line-height:1.25}
+.blueband{background:var(--azul);padding:clamp(56px,7vw,96px) 24px}
+.blueband .in{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px}
+.blueband .t{font-family:var(--titulo);font-weight:800;font-size:clamp(40px,5.4vw,76px);line-height:1;color:var(--crema);max-width:820px}
+.beliefs{display:flex;flex-direction:column;gap:12px}
+.beliefs div{display:grid;grid-template-columns:14px minmax(0,1fr);gap:14px;align-items:baseline;font-size:16px;line-height:1.5}
+.beliefs i{width:14px;height:14px;border-radius:50%;transform:translateY(2px)}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}
+.three div{border-radius:22px;padding:28px;font-family:var(--titulo);font-weight:800;font-size:28px;line-height:1.1}
+.locales{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:14px}
+.local{display:flex;flex-direction:column;border-radius:22px;overflow:hidden;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea)}
+.local .top{position:relative;height:210px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.local .top .char{position:relative;margin-bottom:-4px;zoom:.78}
+.local .in{padding:16px 18px 20px;display:flex;flex-direction:column;gap:6px}
+.local b{font-family:var(--titulo);font-weight:800;font-size:26px;line-height:1}
+.local small{font-size:14px;font-weight:700;line-height:1.4;color:var(--cacao-2)}
+
+/* Pie */
+footer{margin-top:64px;background:var(--cacao);color:var(--crema)}
+footer .wrap{padding-top:56px;padding-bottom:32px;display:flex;flex-direction:column;gap:40px}
+footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:40px}
+footer .brand{display:flex;flex-direction:column;gap:12px}
+footer .slogan{font-family:var(--titulo);font-weight:600;font-size:22px}
+footer .desc{font-size:14px;font-weight:800;letter-spacing:.06em;color:var(--linea-pie)}
+footer .cols{display:flex;gap:56px;flex-wrap:wrap;font-size:15px;font-weight:800}
+footer .cols div{display:flex;flex-direction:column;gap:10px}
+footer .cols a:hover{color:var(--amarillo)}
+footer .base{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px;border-top:1.5px solid rgba(255,248,236,.18);padding-top:20px}
+footer .sign{font-family:var(--titulo);font-weight:800;font-size:26px}
+footer small{font-size:13px;font-weight:700;color:var(--linea-pie)}
+
+/* Burbuja de pedido */
+.bubble{position:fixed;right:16px;bottom:16px;z-index:50;max-width:calc(100vw - 32px);display:flex;align-items:center;gap:12px;background:var(--crema);border-radius:999px;padding:6px 6px 6px 8px;box-shadow:0 0 0 2px var(--cacao),0 16px 30px -10px rgba(74,55,50,.55)}
+.bubble[hidden]{display:none}
+.bubble .iso{position:relative;width:46px;height:46px;border-radius:50%;background:var(--coral);flex:none;display:flex;align-items:center;justify-content:center}
+.bubble .iso .count{position:absolute;right:-4px;top:-4px;min-width:20px;height:20px;border-radius:999px;background:var(--cacao);color:var(--crema);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.bubble .sum{display:flex;flex-direction:column;line-height:1.15}
+.bubble .sum small{font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--cacao-3)}
+.bubble .sum b{font-family:var(--titulo);font-weight:800;font-size:20px;white-space:nowrap}
+.bubble .clear{border:0;background:none;font-size:12px;font-weight:800;color:var(--cacao-3);min-height:44px;min-width:44px;padding:0 4px}
+.bubble .btn{min-height:44px;padding:10px 18px;font-size:14px;white-space:nowrap}
+.bubble .ask{padding:0 16px 0 2px;font-weight:900;font-size:14px;white-space:nowrap;min-height:44px;display:flex;align-items:center}
+@media (max-width:520px){.bubble{gap:8px}.bubble .sum b{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="ann" id="ann"></div>
+<nav class="nav" aria-label="Principal">
+  <div class="wrap">
+    <a href="#/" class="home" aria-label="Lindi, inicio" id="nav-logo"></a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="links">Menú</button>
+    <div class="links" id="links">
+      <a href="#/tienda">Tienda</a>
+      <a href="#/lindiland">Lindiland</a>
+      <a href="#/como-pedir">Cómo pedir</a>
+      <a class="btn" id="nav-wa" href="#/como-pedir" target="_blank" rel="noopener">Escríbenos</a>
+    </div>
+  </div>
+</nav>
+<main id="main"></main>
+<footer id="footer"></footer>
+<div class="bubble" id="bubble" hidden></div>
+<script>
+'use strict';
+// Configuración pública: solo el enlace /exec del Apps Script "Lindi Tienda". Todo lo demás
+// (productos, portada, WhatsApp, textos) se edita en la hoja. Las pruebas usan window.LINDI_TEST_CONFIG.
+const CONFIG = Object.assign({
+  api: 'https://script.google.com/macros/s/AKfycbxPFgpsl5p0Qhtg9rk8K3YqvSfd2dQhfAuKgBnRIoXCVfdWjuSQasVOENkIJG74OWRU/exec'
+}, window.LINDI_TEST_CONFIG || {});
+
+const SCOPES = [
+  { id: 'accesorios', name: 'Accesorios', c: 'coral', fg: 'var(--crema)', pose: 'saluda', empty: 'Aquí van a vivir las vinchas, los ganchitos y las carteritas. Te contamos en Instagram cuando abra.' },
+  { id: 'juego', name: 'Juego', c: 'amarillo', fg: 'var(--cacao)', pose: 'camina', empty: 'Aquí van a vivir la comida de fieltro y el juego de roles. Te contamos en Instagram cuando abra.' },
+  { id: 'creatividad', name: 'Creatividad', c: 'verde', fg: 'var(--crema)', pose: 'celebra', empty: 'Aquí van a vivir las láminas y los kits para pintar y armar. Te contamos en Instagram cuando abra.' },
+  { id: 'espacios', name: 'Espacios', c: 'azul', fg: 'var(--crema)', pose: 'sentado', empty: 'Aquí van a vivir las guirnaldas y lo que arma su rincón. Te contamos en Instagram cuando abra.' }
+];
+// Locales de Lindiland (manual, sección 06): colección, accesorio de Lindi y color.
+const LOCALS = [
+  { name: 'La Pizzería', acc: 'chef', c: 'coral', ink: 'var(--coral-f)', soon: '' },
+  { name: 'La Sanguchería', acc: '', c: 'amarillo', ink: '#8A6410', soon: '' },
+  { name: 'El Sushi bar', acc: '', c: 'verde', ink: 'var(--verde-f)', soon: '' },
+  { name: 'La Pastelería', acc: 'cereza', c: 'rosa', ink: 'var(--rosa-f)', soon: 'Abre completa en abril 2027', extra: ' · abre completa en abril 2027' },
+  { name: 'La Heladería', acc: 'gorra', c: 'azul', ink: 'var(--azul-f)', soon: 'Próximamente · verano 2027–28' }
+];
+// Texto fijo del manual (sección 04), partido en párrafos sin cambiar palabras. Los destacados van en Gluten.
+const MANIFEST = [
+  ['Bienvenidos a Lindiland.', 'var(--coral-f)'],
+  ['Aquí una caja es un horno, un ganchito es una corona y una mesa chiquita es el mejor restaurante de la ciudad.'],
+  ['Los niños tienen una forma extraordinaria de mirar las cosas: donde nosotros vemos algo pequeño, ellos encuentran un mundo entero.'],
+  ['Y a veces, sin darnos cuenta, nos invitan a entrar.'],
+  ['En Lindi creemos en esa manera de mirar. En las historias que nacen de la nada, en las aventuras de todos los días y en esos momentos que parecen comunes, pero que un día vamos a extrañar.'],
+  ['Por eso diseñamos con cariño las pequeñas cosas que acompañan su infancia: lo que se ponen, con lo que juegan, lo que crean y el rincón donde sueñan.'],
+  ['Cuidamos cada detalle porque, para ellos, lo pequeño es enorme.', 'var(--coral-f)'],
+  ['Cosas hechas a mano, para manitos que todavía creen.'],
+  ['Detrás de cada juego hay algo que no se guarda en una caja: el tiempo que compartimos.', 'var(--azul-f)'],
+  ['Algún día dejarán de preparar pizzas imaginarias, de ponerse coronas para desayunar y de invitarnos a sus juegos.'],
+  ['Pero hoy todavía hay una mesa puesta, una historia por inventar y un lugar reservado para ti.'],
+  ['Así que, si te sirven una pizza de fieltro, pruébala despacio.'],
+  ['Para ti es un juego. Para ellos, es un mundo entero.', 'var(--verde-f)'],
+  ['Somos Lindi.', 'var(--coral-f)']
+];
+const BELIEFS = [
+  ['Los niños juegan a lo que ven.', 'Cocinar, atender, pedir y repartir son su forma de entender el mundo.', 'amarillo'],
+  ['El color es alegría con criterio.', 'Cada colección tiene una paleta pensada, frente al beige del sector.', 'coral'],
+  ['Lo hecho a mano se nota y dura.', 'Es la prueba, no un adorno.', 'verde'],
+  ['Es para niñas y niños.', 'Ningún color, tema ni personaje se diseña para un solo género.', 'azul']
+];
+const STORE_LIST = 'lindi-web:pedido';
+const STORE_CONTENT = 'lindi-web:contenido';
+const STORE_LAST = 'lindi-web:ultimo';
+const MAX_QTY = 9;
+const MAX_LINES = 20;
+const SLIDE_MS = 6500;
+
+const state = { content: null, failed: false, list: readStore(STORE_LIST, []), slide: 0, ann: 0, paused: false, carta: false, notice: '', photo: 0, qty: 1, note: '' };
+
+// ---------- Utilidades ----------
+
+function readStore(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
+}
+function writeStore(key, value) {
+  try { if (value == null) localStorage.removeItem(key); else localStorage.setItem(key, JSON.stringify(value)); } catch (e) { }
+}
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+function money(n) {
+  return 'S/' + (Math.round(n) === n ? String(n) : n.toFixed(2));
+}
+function items() { return (state.content && state.content.items) || []; }
+function settings() { return (state.content && state.content.settings) || {}; }
+function byId(id) { return items().find(p => p.id === id); }
+function scopeOf(name) { return SCOPES.find(s => s.name === name || s.id === name) || SCOPES[1]; }
+function priceLabel(p) { return p.price ? money(p.price) : (p.priceText || 'Por confirmar'); }
+function safeUrl(u) { return /^(https:|http:\/\/localhost[:/])/.test(u || '') ? u : ''; }
+
+function daysToChristmas() {
+  const now = new Date();
+  return Math.max(0, Math.ceil((new Date(now.getFullYear(), 11, 24) - now) / 864e5));
+}
+// Navidad se muestra solo con fecha límite escrita y mientras no haya pasado (ni ella ni el 24 de diciembre).
+function christmasOn() {
+  const s = settings(), now = new Date();
+  if (!s.navidad_fecha_limite) return false;
+  if (now.getMonth() === 11 && now.getDate() > 24) return false;
+  if (s.navidad_fecha_limite_iso && new Date(s.navidad_fecha_limite_iso + 'T23:59:59') < now) return false;
+  return true;
+}
+// Reemplaza {tokens} con datos de la hoja. Si un token queda vacío devuelve null y la pieza no se muestra
+// (así un aviso como "Envíos en Lima: {envio_lima}" no sale a medias).
+function fill(text) {
+  if (!text) return '';
+  let missing = false;
+  const out = String(text).replace(/\{([a-z_]+)(?::([\w-]+))?\}/g, (m, key, arg) => {
+    let v = '';
+    if (key === 'dias_navidad') v = christmasOn() ? String(daysToChristmas()) : '';
+    else if (key === 'fecha_limite') v = christmasOn() ? settings().navidad_fecha_limite : '';
+    else if (key === 'precio') { const p = byId(arg); v = p ? priceLabel(p) : ''; }
+    else v = settings()[key] || '';
+    if (!v) missing = true;
+    return v;
+  });
+  return missing ? null : out;
+}
+function waUrl(text) {
+  const n = settings().whatsapp;
+  return n ? 'https:' + '//wa.me/' + n + '?text=' + encodeURIComponent(text) : '';
+}
+// Destino de un botón escrito en la hoja: id de producto, ámbito, tienda, lindiland o whatsapp.
+function dest(to) {
+  const t = String(to || '').trim().toLowerCase();
+  if (!t || t === 'tienda') return '#/tienda';
+  if (t === 'lindiland') return '#/lindiland';
+  if (t === 'whatsapp') return waUrl('Hola, Lindi. ') || '#/como-pedir';
+  if (t === 'como-pedir' || t === 'pedir') return '#/como-pedir';
+  const sc = SCOPES.find(s => s.id === t);
+  if (sc) return '#/tienda/' + sc.id;
+  return byId(to) ? '#/p/' + encodeURIComponent(to) : '#/tienda';
+}
+function linkAttrs(href) {
+  return 'href="' + escapeHtml(href) + '"' + (href.indexOf('https:') === 0 ? ' target="_blank" rel="noopener"' : '');
+}
+
+// ---------- Marca: logo, personaje, isotipo, fotos ----------
+
+function logoHtml(size, mode) {
+  return '<span class="logo' + (mode === 'crema' ? ' crema' : '') + '" style="--fs:' + size + 'px"><span class="l1">l</span><span class="l2">i</span><span class="l3">n</span><span class="l4">d</span><span class="l5">ı<span class="dot"><i></i><i></i><b></b></span></span></span>';
+}
+const CHAR_BODY = { coral: '#E3714F', amarillo: '#EDBA3E', azul: '#6690D2', verde: '#62A05A', crema: '#FFF8EC', rosa: '#E3714F' };
+const CHAR_LIMB = { coral: '#C85A3C', amarillo: '#D29F26', azul: '#4A74B7', verde: '#4B8745', crema: '#EDE0CB', rosa: '#C85A3C' };
+const POSES = { quieto: [20, -20, 0, 0, 'none'], saluda: [20, -150, 0, 0, 'rotate(-4deg)'], camina: [35, -35, 24, -24, 'rotate(5deg)'], salta: [150, -150, 18, -18, 'translateY(-22px)'], sentado: [35, -35, 62, -62, 'translateY(10px)'], celebra: [145, -145, 8, -8, 'none'] };
+const ACCESSORY = {
+  chef: '<span style="left:6px;top:-36px;width:36px;height:38px;filter:drop-shadow(1.5px 0 0 #C9B293) drop-shadow(-1.5px 0 0 #C9B293) drop-shadow(0 -1.5px 0 #C9B293)"><span style="left:2px;top:20px;width:32px;height:16px;border-radius:4px;background:#FFF8EC"></span><span style="left:-1px;top:7px;width:18px;height:18px;border-radius:50%;background:#FFF8EC"></span><span style="left:9px;top:0;width:18px;height:18px;border-radius:50%;background:#FFF8EC"></span><span style="left:19px;top:7px;width:18px;height:18px;border-radius:50%;background:#FFF8EC"></span></span>',
+  cereza: '<span style="left:24px;top:-24px;width:3px;height:16px;border-radius:2px;background:#4B8745;transform:rotate(18deg)"></span><span style="left:27px;top:-24px;width:12px;height:7px;border-radius:50%;background:#62A05A;transform:rotate(-20deg)"></span><span style="left:12px;top:-14px;width:20px;height:20px;border-radius:50%;background:#C85A3C"></span><span style="left:17px;top:-10px;width:5px;height:5px;border-radius:50%;background:#F8D3C8"></span>',
+  gorra: '<span style="left:24px;top:-1px;width:36px;height:10px;border-radius:50%;background:#4A74B7"></span><span style="left:2px;top:-14px;width:44px;height:24px;border-radius:24px 24px 4px 4px;background:#6690D2"></span><span style="left:21px;top:-17px;width:6px;height:6px;border-radius:50%;background:#4A74B7"></span>',
+  sombrero: '<span style="left:-14px;top:0;width:76px;height:14px;border-radius:50%;background:#D29F26"></span><span style="left:8px;top:-18px;width:32px;height:24px;border-radius:14px 14px 3px 3px;background:#EDBA3E"></span><span style="left:8px;top:-2px;width:32px;height:5px;background:#E3714F"></span>',
+  lazo: '<span style="left:28px;top:-10px;width:18px;height:18px;background:#7FA6DA;border-radius:4px 12px 4px 12px;transform:rotate(20deg)"></span><span style="left:45px;top:-2px;width:18px;height:18px;background:#7FA6DA;border-radius:12px 4px 12px 4px;transform:rotate(20deg)"></span><span style="left:41px;top:2px;width:10px;height:10px;border-radius:50%;background:#5E88C4"></span>',
+  boina: '<span style="left:-6px;top:-10px;width:58px;height:20px;border-radius:50%;background:#E8806A;transform:rotate(-12deg)"></span><span style="left:23px;top:-18px;width:7px;height:10px;border-radius:3px;background:#E8806A"></span>',
+  gorrito: '<span style="left:3px;top:-16px;width:42px;height:26px;border-radius:26px 26px 6px 6px;background:#84B377"></span><span style="left:1px;top:4px;width:46px;height:8px;border-radius:4px;background:#6FA061"></span><span style="left:17px;top:-27px;width:14px;height:14px;border-radius:50%;background:#FFF8EC"></span>'
+};
+// Lindi: cabeza amarilla con carita, cuerpo cápsula, bracitos y piernitas (manual, sección 14).
+function charHtml(color, pose, acc, scale) {
+  const P = POSES[pose] || POSES.quieto;
+  const body = CHAR_BODY[color] || CHAR_BODY.coral, limb = CHAR_LIMB[color] || CHAR_LIMB.coral;
+  const laugh = pose === 'salta' || pose === 'celebra';
+  const ring = color === 'amarillo' ? 'box-shadow:inset 0 0 0 2.5px #DDAA34;' : '';
+  const eyes = laugh
+    ? '<span style="left:10px;top:23px;width:9px;height:5px;border:2.5px solid #4A3732;border-bottom:none;border-radius:5px 5px 0 0"></span><span style="left:29px;top:23px;width:9px;height:5px;border:2.5px solid #4A3732;border-bottom:none;border-radius:5px 5px 0 0"></span>'
+    : '<span style="left:11.5px;top:23.5px;width:6px;height:6px;border-radius:50%;background:#4A3732"></span><span style="left:30.5px;top:23.5px;width:6px;height:6px;border-radius:50%;background:#4A3732"></span>';
+  const mouth = laugh
+    ? '<span style="left:16.5px;top:31px;width:15px;height:8px;border-radius:2px 2px 15px 15px;background:#4A3732"></span>'
+    : '<span style="left:16px;top:31px;width:16px;height:7px;border:3.5px solid #4A3732;border-top:none;border-radius:0 0 16px 16px"></span>';
+  const spark = acc ? '' : '<span style="left:45px;top:-12px;width:6px;height:13px;border-radius:3px;background:#C85A3C;transform:rotate(28deg)"></span><span style="left:53px;top:0;width:6px;height:10px;border-radius:3px;background:#C85A3C;transform:rotate(66deg)"></span>';
+  const limbStyle = 'width:11px;border-radius:5.5px;background:' + limb + ';z-index:-1;';
+  return '<span class="char" aria-hidden="true" style="zoom:' + (scale || 1) + '">' +
+    (pose === 'salta' || pose === 'sentado' ? '<span class="shadow"></span>' : '') +
+    '<span class="fig" style="transform:' + P[4] + '">' +
+    '<span class="head" style="' + ring + '">' + spark + eyes +
+    '<span style="left:4.5px;top:31px;width:6.5px;height:4px;border-radius:50%;background:#E3714F"></span><span style="right:4.5px;top:31px;width:6.5px;height:4px;border-radius:50%;background:#E3714F"></span>' +
+    mouth + (ACCESSORY[acc] || '') + '</span>' +
+    '<span class="body" style="background:' + body + ';' + ring + '">' +
+    '<span style="' + limbStyle + 'left:-2px;top:11px;height:34px;transform-origin:5.5px 5.5px;transform:rotate(' + P[0] + 'deg)"></span>' +
+    '<span style="' + limbStyle + 'left:31px;top:11px;height:34px;transform-origin:5.5px 5.5px;transform:rotate(' + P[1] + 'deg)"></span>' +
+    '<span style="' + limbStyle + 'left:5px;bottom:-16px;height:22px;transform-origin:5.5px 0;transform:rotate(' + P[2] + 'deg)"></span>' +
+    '<span style="' + limbStyle + 'left:24px;bottom:-16px;height:22px;transform-origin:5.5px 0;transform:rotate(' + P[3] + 'deg)"></span>' +
+    '</span></span></span>';
+}
+function isoHtml() {
+  return '<span aria-hidden="true" style="position:relative;display:block;width:22px;height:36px"><span style="position:absolute;left:4px;top:13px;width:14px;height:23px;border-radius:7px;background:var(--crema)"></span><span style="position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--amarillo)"></span><span style="position:absolute;left:5px;top:9px;width:3px;height:3px;border-radius:50%;background:var(--cacao)"></span><span style="position:absolute;right:5px;top:9px;width:3px;height:3px;border-radius:50%;background:var(--cacao)"></span><span style="position:absolute;left:7.5px;top:13px;width:7px;height:3.5px;border:1.6px solid var(--cacao);border-top:none;border-radius:0 0 7px 7px"></span></span>';
+}
+function pastel(c) { return 'var(--' + c + '-p)'; }
+// Foto de la hoja o, si falta, rayitas del color con Lindi: nunca un hueco ni un "foto pendiente".
+// Lindi nunca va sobre su mismo color (manual, sección 11): coral, salvo sobre rayitas coral o rosa.
+function photoHtml(url, alt, c, pose, acc, scale) {
+  const u = safeUrl(url);
+  const body = c === 'coral' || c === 'rosa' ? 'amarillo' : 'coral';
+  const fallback = '<span class="rayas" style="--rp:' + pastel(c || 'amarillo') + '"></span>' + (pose ? '<span class="ph-char">' + charHtml(body, pose, acc || '', scale || 1) + '</span>' : '');
+  if (!u) return fallback;
+  return '<img src="' + escapeHtml(u) + '" alt="' + escapeHtml(alt || '') + '" loading="lazy" referrerpolicy="no-referrer" data-fb="' + escapeHtml(JSON.stringify([c || 'amarillo', pose || '', acc || '', scale || 1])) + '">';
+}
+
+// ---------- Pedido (lista guardada en este equipo) ----------
+
+function saveList() { writeStore(STORE_LIST, state.list); paintBubble(); }
+function lineOf(id) { return state.list.find(l => l.id === id); }
+function addToList(id, qty, choice) {
+  const line = lineOf(id);
+  if (line && line.qty >= MAX_QTY) { state.notice = 'Puedes pedir hasta ' + MAX_QTY + ' de cada producto. Si necesitas más, cuéntanos en la nota.'; return false; }
+  // Otra elección para el mismo producto se suma a la anterior (2 lazos rojos + 1 azul), no la reemplaza.
+  if (line) { line.qty = Math.min(MAX_QTY, line.qty + qty); if (choice && line.choice.indexOf(choice) < 0) line.choice = (line.choice ? line.choice + ' + ' : '') + qty + ': ' + choice; }
+  else if (state.list.length < MAX_LINES) state.list.push({ id: id, qty: Math.min(MAX_QTY, qty), choice: choice || '' });
+  else { state.notice = 'Tu pedido ya tiene ' + MAX_LINES + ' productos distintos. Envía este y luego arma otro.'; return false; }
+  saveList();
+  return true;
+}
+function setQty(id, qty) {
+  const line = lineOf(id);
+  if (!line) return;
+  if (qty <= 0) state.list = state.list.filter(l => l.id !== id);
+  else line.qty = Math.min(MAX_QTY, qty);
+  saveList();
+}
+function listCount() { return state.list.reduce((s, l) => s + l.qty, 0); }
+function listTotal() {
+  let sum = 0, pending = false;
+  state.list.forEach(l => { const p = byId(l.id); if (!p) return; if (p.price) sum += p.price * l.qty; else pending = true; });
+  return { sum: sum, pending: pending, label: sum ? money(sum) + (pending ? ' + por confirmar' : '') : 'Por confirmar' };
+}
+// Si un producto dejó de publicarse, sale del pedido y se avisa una vez.
+function pruneList() {
+  if (!state.content) return;
+  const before = state.list.length;
+  state.list = state.list.filter(l => byId(l.id));
+  if (state.list.length !== before) { state.notice = 'Quitamos de tu pedido lo que ya no está disponible.'; saveList(); }
+}
+function paintBubble() {
+  const el = document.getElementById('bubble');
+  const r = route()[0];
+  const n = listCount();
+  const wa = waUrl('Hola, Lindi. ');
+  const hide = !state.content || r === 'pedido' || r === 'listo' || (!n && !wa);
+  el.hidden = hide;
+  document.body.classList.toggle('has-bubble', !hide);
+  if (hide) return;
+  const narrow = innerWidth < 520;
+  el.innerHTML = n
+    ? '<a class="iso" href="#/pedido" aria-label="Ver tu pedido">' + isoHtml() + '<span class="count">' + n + '</span></a>' +
+      '<a class="sum" href="#/pedido"><small>TU PEDIDO</small><b>' + escapeHtml(listTotal().label) + '</b></a>' +
+      '<button class="clear" data-act="clear" aria-label="Vaciar pedido">' + (narrow ? '✕' : 'Vaciar') + '</button>' +
+      '<button class="btn" data-act="send">' + (narrow ? 'Enviar' : 'Enviar por WhatsApp') + '</button>'
+    : '<span class="iso">' + isoHtml() + '</span><a class="ask" ' + linkAttrs(wa) + '>¿Dudas? Escríbenos</a>';
+}
+
+// ---------- Contenido desde la hoja ----------
+
+async function loadContent() {
+  if (!CONFIG.api) { render(); return; }
+  const cached = readStore(STORE_CONTENT, null);
+  if (cached && cached.items) { setContent(cached); render(); }
+  try {
+    const res = await fetchWithTimeout(CONFIG.api + '?a=contenido', {}, 15000);
+    const data = await res.json();
+    if (!data.ok || !Array.isArray(data.items)) throw new Error('contenido');
+    const c = { items: data.items, slides: data.slides || [], settings: data.settings || {} };
+    writeStore(STORE_CONTENT, c);
+    setContent(c);
+    state.failed = false;
+  } catch (e) {
+    if (!state.content) state.failed = true;
+  }
+  const first = !document.getElementById('pedir') && !document.getElementById('carta');
+  render();
+  if (first) scrollToTarget();
+}
+function setContent(c) {
+  state.content = c;
+  // Vista previa de la otra opción de fondo sin tocar la hoja: ?fondo=crema o ?fondo=blanco.
+  const q = (location.search.match(/[?&]fondo=(blanco|crema|mixto)/) || [])[1];
+  const f = c.settings && c.settings.fondo;
+  document.documentElement.dataset.fondo = q || (f === 'blanco' || f === 'mixto' ? f : 'crema');
+  pruneList();
+}
+function fetchWithTimeout(url, opts, ms) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, Object.assign({ signal: ctrl.signal, redirect: 'follow' }, opts)).finally(() => clearTimeout(timer));
+}
+
+// ---------- Piezas reutilizables ----------
+
+function cardHtml(p, withChip) {
+  const sc = scopeOf(p.scope), line = lineOf(p.id), pr = priceLabel(p);
+  return '<article class="card"><a class="ph" href="#/p/' + encodeURIComponent(p.id) + '" aria-label="' + escapeHtml(p.name) + '"><span class="clip">' +
+    photoHtml(p.photo, p.name, sc.c, sc.pose, '', .8) + '</span>' +
+    (withChip ? '<span class="chip" style="background:var(--' + sc.c + ');color:' + sc.fg + '">' + sc.name + '</span>' : '') +
+    (p.badge ? '<span class="badge">' + escapeHtml(p.badge) + '</span>' : '') +
+    '<span class="sticker' + (pr.length > 10 ? ' long xl' : pr.length > 6 ? ' long' : '') + '">' + escapeHtml(pr) + '</span></a>' +
+    '<h3><a href="#/p/' + encodeURIComponent(p.id) + '">' + escapeHtml(p.name) + '</a></h3>' +
+    (p.play ? '<p class="play">Para jugar a ' + escapeHtml(p.play) + '.</p>' : '') +
+    '<button class="add' + (line ? ' on' : '') + '" data-act="add" data-id="' + escapeHtml(p.id) + '">' + (line ? '✓ En tu pedido · ' + line.qty : '+ Agregar al pedido') + '</button></article>';
+}
+function noticeHtml() {
+  return state.notice ? '<p class="notice" role="status">' + escapeHtml(state.notice) + '</p>' : '';
+}
+
+// ---------- Vistas ----------
+
+const VIEWS = {
+  home() {
+    if (!state.content) return statusHtml();
+    const s = settings(), all = items();
+    const featured = all.filter(p => p.featured);
+    const best = (featured.length ? featured : all).slice(0, 8);
+    const scopesWith = SCOPES.filter(sc => all.some(p => scopeOf(p.scope).id === sc.id));
+    let h = heroHtml();
+    h += '<section class="welcome"><h2 class="h2">Bienvenidos a Lindiland.</h2><p>Diseñamos las pequeñas cosas que hacen grande su mundo.</p></section>';
+    if (scopesWith.length) {
+      h += '<div class="wrap"><div class="blocks">' + scopesWith.slice(0, 4).map(sc =>
+        '<a class="block" href="#/tienda/' + sc.id + '"><span class="ph">' + photoHtml(s['foto_' + sc.id], sc.name, sc.c, sc.pose, '', 1.5) + '</span>' +
+        '<span class="plate" style="background:var(--' + sc.c + ');color:' + sc.fg + '"><span><span class="kicker">' + sc.name + '</span><b>' + escapeHtml(s['titulo_' + sc.id] || sc.name) + '</b></span>' +
+        '<span class="btn ' + (sc.c === 'amarillo' ? '' : 'light') + '">Ver ahora</span></span></a>').join('') + '</div></div>';
+    }
+    if (best.length) {
+      h += '<section class="sec"><div class="wrap"><div class="row-head"><div><h2 class="h2">Lo más pedido</h2><p class="lead">Agrega lo que te guste y envía todo junto por WhatsApp.</p></div><a class="more" href="#/tienda">Ver toda la tienda →</a></div>' +
+        noticeHtml() + '<div class="grid small">' + best.map(p => cardHtml(p, false)).join('') + '</div></div></section>';
+    }
+    const xmas = christmasOn() && s.navidad_texto;
+    const newsT = fill(s.novedad_titulo);
+    if (xmas || newsT) {
+      h += '<section class="sec"><div class="wrap duo">';
+      if (xmas) h += '<div class="ed blue"><span class="kicker">Navidad ' + new Date().getFullYear() + '</span><div class="t">Regalos de Navidad</div><p style="font-size:17px;line-height:1.5;font-weight:700;max-width:380px">' + escapeHtml(s.navidad_texto) + '</p>' +
+        '<div class="count"><span><b>' + daysToChristmas() + '</b> días para Navidad</span><span style="font-size:14px;font-weight:800">Pide hasta el ' + escapeHtml(s.navidad_fecha_limite) + '</span></div>' +
+        '<a class="btn light" href="#/tienda/juego">Ver regalos</a><span class="lindi">' + charHtml('crema', 'salta', '', 1.05) + '</span></div>';
+      if (newsT) {
+        const btn = fill(s.novedad_boton);
+        h += '<a class="ed news" href="' + escapeHtml(dest(s.novedad_destino)) + '"><span class="top"><span class="rayas" style="--rp:var(--rosa-p)"></span><span style="position:absolute;right:28px;bottom:-60px">' + charHtml('coral', 'quieto', 'cereza', .9) + '</span></span>' +
+          '<span class="in"><span class="kicker" style="color:var(--cacao-3)">' + escapeHtml(fill(s.novedad_etiqueta) || '') + '</span><span class="t">' + escapeHtml(newsT) + '</span>' +
+          '<span style="font-size:16px;line-height:1.5;color:var(--cacao-2)">' + escapeHtml(fill(s.novedad_texto) || '') + '</span>' + (btn ? '<span class="btn">' + escapeHtml(btn) + '</span>' : '') + '</span></a>';
+      }
+      h += '</div></section>';
+    }
+    h += '<section class="sec"><div class="wrap"><h2 class="h2" style="margin-bottom:28px">¿Qué buscas hoy?</h2><div class="ambs">' + SCOPES.map(sc => {
+      const n = all.filter(p => scopeOf(p.scope).id === sc.id).length;
+      return '<a class="amb" href="#/tienda/' + sc.id + '"><span class="ring" style="box-shadow:inset 0 0 0 10px var(--' + sc.c + ')">' + charHtml(sc.c, sc.pose, '', 1) + '</span><b>' + sc.name + '</b><small>' + (n ? n + (n === 1 ? ' PRODUCTO' : ' PRODUCTOS') : 'PRONTO') + '</small></a>';
+    }).join('') + '</div></div></section>';
+    h += '<section class="sec"><div class="wrap story"><div class="mosaic">' +
+      ['foto_historia_1', 'foto_historia_2', 'foto_historia_3'].map((k, i) => '<div class="ph">' + photoHtml(s[k], '', ['amarillo', 'verde', 'azul'][i], i ? '' : 'celebra', '', 1.2) + '</div>').join('') +
+      '</div><div class="txt"><span class="kicker" style="color:var(--cacao-3)">Lo que hay detrás</span><h2 class="h2">Un mundo pensado a su altura</h2>' +
+      '<p>Lindi nace de mirar cómo juegan los niños: una caja es un horno, un ganchito es una corona y una mesa chiquita es el mejor restaurante de la ciudad. Quien la creó es arquitecta, y diseña Lindiland como se diseña una ciudad: con lugares, colores y rincones a su altura. Lo que se ponen, con lo que juegan, lo que crean y el espacio donde sueñan.</p>' +
+      '<p class="quote">Cuidamos cada detalle porque, para ellos, lo pequeño es enorme.</p><a class="more" style="align-self:flex-start" href="#/carta">Lee la carta a los papás →</a></div></div></section>';
+    const gift = waUrl('Hola, Lindi. Quiero pedir un regalo para: ');
+    if (s.regalo_texto) h += '<section class="sec"><div class="wrap"><div class="band"><div class="t">¿Es para regalo?</div><p>' + escapeHtml(s.regalo_texto) + '</p>' +
+      (gift ? '<a class="btn yellow" ' + linkAttrs(gift) + '>Pedir para regalo</a>' : '') + '<span class="lindi">' + charHtml('coral', 'saluda', '', 1.05) + '</span></div></div></section>';
+    h += howHtml();
+    const feed = Array.isArray(s.fotos_redes) ? s.fotos_redes : [];
+    h += '<section class="sec" style="padding-bottom:24px"><div class="wrap"><div class="row-head"><div><h2 class="h2">Lo que pasa en Lindiland</h2><p class="lead">Colecciones nuevas, juego real y lo que se arma pieza por pieza.</p></div><div class="social">' +
+      (s.instagram ? '<a class="btn" href="https://www.instagram.com/' + escapeHtml(s.instagram) + '/" target="_blank" rel="noopener">Instagram · @' + escapeHtml(s.instagram) + '</a>' : '') +
+      (s.tiktok ? '<a class="btn ring" href="https://www.tiktok.com/@' + escapeHtml(s.tiktok) + '" target="_blank" rel="noopener">TikTok · @' + escapeHtml(s.tiktok) + '</a>' : '') + '</div></div>' +
+      (feed.length ? '<div class="feed">' + feed.map(u => '<div class="ph">' + photoHtml(u, 'Lindi en redes', 'amarillo') + '</div>').join('') + '</div>' : '') + '</div></section>';
+    return h;
+  },
+
+  tienda(filter) {
+    if (!state.content) return statusHtml();
+    const sc = SCOPES.find(x => x.id === filter);
+    const list = items().filter(p => !sc || scopeOf(p.scope).id === sc.id);
+    const tabs = [{ id: '', name: 'Todo', c: '' }].concat(SCOPES).map(t =>
+      '<a class="tab" href="#/tienda' + (t.id ? '/' + t.id : '') + '"' + ((sc ? sc.id : '') === t.id ? ' aria-current="page"' : '') + '><i style="background:' + (t.c ? 'var(--' + t.c + ')' : 'var(--cacao)') + '"></i>' + t.name + '</a>').join('');
+    return '<div class="wrap" style="padding-bottom:40px"><div class="page-head"><h1>Tienda</h1><p class="lead">Todo hecho a mano, pieza por pieza. Arma tu pedido y envíalo por WhatsApp.</p></div>' +
+      '<div class="tabs" role="group" aria-label="Ámbitos">' + tabs + '</div>' + noticeHtml() +
+      (list.length ? '<div class="grid">' + list.map(p => cardHtml(p, true)).join('') + '</div>'
+        : '<div class="empty-amb" style="background:var(--' + (sc || SCOPES[2]).c + ');color:' + (sc || SCOPES[2]).fg + '"><div><b>Este rincón todavía se está armando.</b><p>' + escapeHtml((sc || SCOPES[2]).empty) + '</p></div>' + charHtml('crema', 'sentado', '', 1.2) + '</div>') + '</div>';
+  },
+
+  product(id) {
+    if (!state.content) return statusHtml();
+    const p = byId(id);
+    if (!p) return '<div class="status"><p>Este producto ya no está disponible.</p><a class="btn" href="#/tienda">Ver la tienda</a></div>';
+    const sc = scopeOf(p.scope), s = settings(), line = lineOf(p.id);
+    const photos = [p.photo].concat(p.photos || []).filter(Boolean);
+    const main = photos[state.photo] || photos[0] || '';
+    const total = p.price ? money(p.price * state.qty) : priceLabel(p);
+    const related = items().filter(x => x.id !== p.id).sort((a, b) => (scopeOf(b.scope).id === sc.id) - (scopeOf(a.scope).id === sc.id)).slice(0, 4);
+    const ship = [s.envio_lima ? 'Lima: ' + s.envio_lima : '', s.envio_provincias ? 'Provincias: ' + s.envio_provincias : ''].filter(Boolean);
+    return '<div class="wrap"><div class="crumbs"><a href="#/tienda">Tienda</a><span>/</span><a href="#/tienda/' + sc.id + '">' + sc.name + '</a><span>/</span><span style="color:var(--cacao)">' + escapeHtml(p.name) + '</span></div>' +
+      '<div class="prod"><div class="gallery"><div class="ph main">' + photoHtml(main, p.name, sc.c, sc.pose, '', 1.6) + '</div>' +
+      (photos.length > 1 ? '<div class="thumbs">' + photos.map((u, i) => '<button data-act="photo" data-i="' + i + '" aria-label="Foto ' + (i + 1) + '" aria-current="' + (u === main) + '">' + photoHtml(u, '', sc.c) + '</button>').join('') + '</div>' : '') + '</div>' +
+      '<div class="info"><div class="chips"><span class="chip" style="background:var(--' + sc.c + ');color:' + sc.fg + '">' + sc.name + '</span><small>' + (p.collection ? 'Colección ' + escapeHtml(p.collection) : '') + '</small></div>' +
+      '<h1>' + escapeHtml(p.name) + '</h1><div class="price">' + escapeHtml(priceLabel(p)) + '</div>' +
+      (p.description ? '<p class="desc">' + escapeHtml(p.description) + '</p>' : '') +
+      (p.play ? '<div class="playbox" style="background:var(--' + sc.c + ');color:' + sc.fg + '">Para jugar a ' + escapeHtml(p.play) + '.</div>' : '') +
+      '<div class="buy"><div class="field"><span class="lbl">Cantidad</span><div class="qty" role="group" aria-label="Cantidad"><button data-act="pdMinus" aria-label="Menos">−</button><output id="pd-qty" aria-live="polite">' + state.qty + '</output><button data-act="pdPlus" aria-label="Más">+</button></div></div>' +
+      '<label class="field"><span class="lbl">' + (p.customize ? escapeHtml(p.customize) : 'Nota para tu pedido (opcional)') + '</span><input class="input" id="pd-note" maxlength="200" value="' + escapeHtml(state.note) + '" placeholder="' + (p.customize ? 'Escríbelo aquí' : 'Ej.: es para regalo') + '"></label></div>' +
+      '<button class="btn big" data-act="pdBuy" data-id="' + escapeHtml(p.id) + '">Pedir por WhatsApp · <span id="pd-total">' + escapeHtml(total) + '</span></button>' +
+      '<p class="hint" style="margin-top:-8px">Se abre WhatsApp con tu pedido ya escrito (junto con lo que ya tenías en tu pedido).</p>' +
+      '<button class="link" data-act="pdAdd" data-id="' + escapeHtml(p.id) + '">' + (line ? '✓ En tu pedido (' + line.qty + ') · agregar más y seguir mirando' : 'o agrégalo a tu pedido y sigue mirando') + '</button>' + noticeHtml() +
+      ((p.age || p.warning || p.material || ship.length) ? '<div class="facts">' +
+        ((p.age || p.warning) ? '<div class="fact strong"><span class="lbl" style="color:inherit">' + escapeHtml(p.age || 'Importante') + '</span><span>' + escapeHtml(p.warning || '') + '</span></div>' : '') +
+        ((p.material || ship.length) ? '<div class="fact soft"><span class="lbl" style="color:inherit">Material y envío</span>' + (p.material ? '<span>' + escapeHtml(p.material) + '</span>' : '') + ship.map(x => '<span>' + escapeHtml(x) + '</span>').join('') + '</div>' : '') + '</div>' : '') +
+      '</div></div>' +
+      (related.length ? '<section class="sec" style="padding-bottom:40px"><h2 class="h2" style="font-size:clamp(30px,3.6vw,44px);margin-bottom:24px">También en Lindiland</h2><div class="grid">' + related.map(x => cardHtml(x, true)).join('') + '</div></section>' : '') + '</div>';
+  },
+
+  lindiland() {
+    const s = settings(), all = items();
+    return '<section class="ll-hero"><span class="rayas" style="--rp:var(--coral-p);--rw:36px"></span><div class="card-c"><h1>Bienvenidos a Lindiland.</h1><span class="kicker" style="color:var(--cacao-3)">Nuestro mundo</span></div><span class="lindi">' + charHtml('coral', 'saluda', '', 1.1) + '</span></section>' +
+      '<section class="letter" id="carta"><div class="paper"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span class="lbl">Carta a los papás · 2 min de lectura</span></div>' +
+      '<div class="body' + (state.carta ? ' open' : '') + '">' + MANIFEST.map(m => '<p' + (m[1] ? ' class="hi" style="color:' + m[1] + '"' : '') + '>' + escapeHtml(m[0]) + '</p>').join('') + '</div>' +
+      '<button class="btn" style="align-self:flex-start" data-act="carta" aria-expanded="' + state.carta + '">' + (state.carta ? 'Cerrar la carta ↑' : 'Leer la carta completa ↓') + '</button></div></section>' +
+      '<section class="blueband"><div class="in"><div class="t">Para ti es un juego. Para ellos, es un mundo entero.</div>' + charHtml('crema', 'salta', '', 1.3) + '</div></section>' +
+      '<section class="sec"><div class="wrap story"><div class="ph" style="aspect-ratio:4/5;max-height:620px;border-radius:28px">' + photoHtml(s.foto_quienes_somos, 'Lindi', 'amarillo', 'celebra', '', 2) + '</div>' +
+      '<div class="txt"><span class="kicker" style="color:var(--cacao-3)">Quiénes somos</span><h2 class="h2">Lo que hay detrás de Lindi</h2><p>Lindi nace de mirar cómo juegan los niños y de creer que su infancia merece un mundo propio. Quien la creó es arquitecta, y diseña Lindiland como se diseña una ciudad: con lugares, colores y rincones a su altura. Por eso Lindi abarca todo su día: lo que se ponen, con lo que juegan, lo que crean y el espacio donde sueñan.</p>' +
+      '<div class="beliefs">' + BELIEFS.map(b => '<div><i style="background:var(--' + b[2] + ')"></i><span><b>' + b[0] + '</b> ' + b[1] + '</span></div>').join('') + '</div></div></div></section>' +
+      '<section class="sec"><div class="wrap"><h2 class="h2" style="font-size:clamp(30px,3.8vw,48px);max-width:760px;margin-bottom:24px">Todo lo que entra a Lindi responde que sí a tres preguntas</h2><div class="three">' +
+      '<div style="background:var(--verde);color:var(--crema)">¿Invita a imaginar, jugar o crear?</div><div style="background:var(--amarillo)">¿Está hecho con cuidado? Seguro, bien terminado, durable.</div><div style="background:var(--coral);color:var(--crema)">¿Alguien querría guardarlo cuando el niño crezca?</div></div></div></section>' +
+      '<section class="sec" style="padding-bottom:40px"><div class="wrap"><div class="row-head"><div><h2 class="h2">Los locales de Lindiland</h2><p class="lead">Cada colección es un lugar del barrio, y Lindi se pone el sombrero de cada uno.</p></div></div><div class="locales">' +
+      LOCALS.map(l => {
+        const p = all.find(x => x.collection === l.name);
+        const status = p ? 'Ya puedes pedir' + (l.extra || '') : (l.soon || 'Próximamente');
+        const inner = '<span class="top"><span class="rayas" style="--rp:' + pastel(l.c) + ';--rw:20px"></span>' + charHtml('coral', 'quieto', l.acc, 1) + '</span><span class="in"><b style="color:' + l.ink + '">' + l.name + '</b><small>' + status + '</small></span>';
+        return p ? '<a class="local" href="#/p/' + encodeURIComponent(p.id) + '">' + inner + '</a>' : '<div class="local">' + inner + '</div>';
+      }).join('') + '</div></div></section>';
+  },
+
+  pedido() {
+    if (!state.content) return statusHtml();
+    if (!state.list.length) return '<div class="status"><h1 class="h2">Tu pedido está vacío</h1><p>Agrega productos desde la tienda.</p><a class="btn" href="#/tienda">Ver la tienda</a></div>';
+    const t = listTotal();
+    const lines = state.list.map(l => {
+      const p = byId(l.id);
+      if (!p) return '';
+      const sc = scopeOf(p.scope), id = escapeHtml(p.id);
+      return '<div class="line" data-id="' + id + '"><a class="ph" href="#/p/' + encodeURIComponent(p.id) + '">' + photoHtml(p.photo, p.name, sc.c) + '</a><div>' +
+        '<div class="name">' + escapeHtml(p.name) + '</div><div class="hint">' + escapeHtml(priceLabel(p)) + (p.price ? ' c/u' : '') + '</div>' +
+        (p.customize ? '<label class="field"><span class="lbl">' + escapeHtml(p.customize) + ' (opcional)</span><input class="input" data-choice="' + id + '" maxlength="200" value="' + escapeHtml(l.choice) + '"></label>' : '') +
+        '<div class="sub"><div class="qty" role="group" aria-label="Cantidad de ' + escapeHtml(p.name) + '"><button data-act="minus" data-id="' + id + '" aria-label="Menos">−</button><output>' + l.qty + '</output><button data-act="plus" data-id="' + id + '" aria-label="Más">+</button></div>' +
+        '<button class="rm" data-act="remove" data-id="' + id + '">Quitar</button></div></div></div>';
+    }).join('');
+    const s = settings();
+    return '<div class="wrap"><div class="crumbs"><a href="#/tienda">← Seguir mirando</a></div><div class="order"><div><h1 class="h2" style="margin-bottom:8px">Tu pedido</h1>' + noticeHtml() + lines +
+      '<div class="total"><span class="lbl">Total</span><b id="order-total">' + escapeHtml(t.label) + '</b></div>' +
+      '<p class="hint">Precios en soles.' + (t.pending ? ' Lo que dice «por confirmar» te lo cotizamos en el chat.' : '') + ' El envío se coordina por WhatsApp.</p></div>' +
+      // Sin formulario de datos (frena la compra): un toque y el resto se conversa en el chat.
+      '<div class="panel"><h2>Listo para enviar</h2>' +
+      '<p class="hint" style="font-size:16px">Se abre WhatsApp con tu pedido ya escrito. Solo lo envías y te respondemos para confirmar stock, ' + (s.medios_pago ? 'pago por ' + escapeHtml(s.medios_pago) : 'pago') + ' y entrega.</p>' +
+      '<p class="err" id="form-err" role="alert"></p>' +
+      '<button class="btn big" data-act="send" id="send-btn">Enviar pedido por WhatsApp</button></div></div></div>';
+  },
+
+  listo() {
+    const last = readStore(STORE_LAST, null);
+    if (!last) return '<div class="status"><p>No hay un pedido reciente.</p><a class="btn" href="#/tienda">Ver la tienda</a></div>';
+    return '<div class="done">' + charHtml('coral', 'celebra', '', 1.2) + '<h1>¡Gracias!</h1>' +
+      '<p class="lead">Envía el mensaje que se abrió en WhatsApp para que te respondamos.</p>' +
+      '<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"><a class="btn" href="' + escapeHtml(last.url) + '" id="wa-again">Abrir WhatsApp</a><a class="btn ring" href="#/">Volver al inicio</a></div></div>';
+  }
+};
+
+function statusHtml() {
+  if (!CONFIG.api) return '<div class="status">' + charHtml('coral', 'saluda', '', 1.2) + '<p>La tienda está en preparación.</p></div>';
+  if (state.failed) return '<div class="status"><p>No pudimos cargar la tienda. Revisa tu conexión.</p><button class="btn" data-act="retry">Intentar otra vez</button></div>';
+  return '<div class="status">Cargando…</div>';
+}
+
+// Portada: diapositivas de la pestaña "Portada". Una con un {token} vacío no sale (p. ej. Navidad sin fecha).
+function slidesNow() {
+  return ((state.content && state.content.slides) || []).map(sl => Object.assign({}, sl, {
+    kicker: fill(sl.kicker), title: fill(sl.title), text: fill(sl.text), cta: fill(sl.cta), cta2: fill(sl.cta2), sticker: fill(sl.sticker), stickerText: fill(sl.stickerText)
+  })).filter(sl => sl.title && sl.kicker !== null && sl.text !== null && sl.cta !== null && sl.cta2 !== null && sl.sticker !== null && sl.stickerText !== null);
+}
+const SLIDE_LOOK = {
+  amarillo: { bg: 'var(--amarillo)', fg: 'var(--cacao)', cta: 'btn', st: 'background:var(--crema);color:var(--cacao)', char: 'crema' },
+  azul: { bg: 'var(--azul)', fg: 'var(--crema)', cta: 'btn light', st: 'background:var(--amarillo);color:var(--cacao)', char: 'crema' },
+  coral: { bg: 'var(--coral)', fg: 'var(--crema)', cta: 'btn light', st: 'background:var(--amarillo);color:var(--cacao)', char: 'crema' },
+  verde: { bg: 'var(--verde)', fg: 'var(--crema)', cta: 'btn light', st: 'background:var(--amarillo);color:var(--cacao)', char: 'crema' }
+};
+const SLIDE_POSES = ['saluda', 'salta', 'camina', 'celebra', 'saluda', 'camina'];
+function heroHtml() {
+  const list = slidesNow();
+  if (!list.length) return '';
+  const i = state.slide % list.length, sl = list[i], look = SLIDE_LOOK[sl.color] || SLIDE_LOOK.amarillo;
+  return '<section class="hero" id="hero" style="background:' + look.bg + ';color:' + look.fg + '" aria-roledescription="carrusel"><div class="wrap"><div class="txt">' +
+    (sl.kicker ? '<span class="kicker">' + escapeHtml(sl.kicker) + '</span>' : '') + '<h1>' + escapeHtml(sl.title) + '</h1>' + (sl.text ? '<p class="sub">' + escapeHtml(sl.text) + '</p>' : '') +
+    '<div class="ctas">' + (sl.cta ? '<a class="' + look.cta + ' cta1" ' + linkAttrs(dest(sl.to)) + '>' + escapeHtml(sl.cta) + '</a>' : '') +
+    (sl.cta2 ? '<a class="btn ring cta2" ' + linkAttrs(dest(sl.to2)) + '>' + escapeHtml(sl.cta2) + '</a>' : '') + '</div>' +
+    (list.length > 1 ? '<div class="dots">' + list.map((x, j) => '<button data-act="slide" data-i="' + j + '" aria-label="Diapositiva ' + (j + 1) + '" aria-current="' + (j === i) + '"></button>').join('') +
+      '<button class="pause" data-act="pause" aria-label="' + (state.paused ? 'Reanudar el carrusel' : 'Pausar el carrusel') + '">' + (state.paused ? '▶' : '❚❚') + '</button></div>' : '') +
+    '</div><div class="pic"><div class="frame ph">' + photoHtml(sl.photo, sl.title, sl.color === 'amarillo' ? 'amarillo' : sl.color) + '</div>' +
+    (sl.sticker ? '<div class="sticker" style="' + look.st + '"><b>' + escapeHtml(sl.sticker) + '</b><small>' + escapeHtml(sl.stickerText || '') + '</small></div>' : '') +
+    '<span class="lindi">' + charHtml(look.char, SLIDE_POSES[i], sl.accessory, 1.25) + '</span></div></div></section>';
+}
+
+function howHtml() {
+  const s = settings();
+  const steps = [
+    ['Elige', 'Mira la tienda y agrega lo que te guste a tu pedido.', 'coral', 'var(--crema)'],
+    ['Escríbenos', 'Tocas «Enviar» y se abre WhatsApp con tu pedido ya escrito. Solo agregas tu distrito.', 'amarillo', 'var(--cacao)'],
+    ['Confirma y paga', 'Te confirmamos stock y fecha de entrega.' + (s.medios_pago ? ' Pagas por ' + s.medios_pago + '.' : ''), 'verde', 'var(--crema)'],
+    ['Recibe', s.entrega_texto || 'Coordinamos la entrega por WhatsApp.', 'azul', 'var(--crema)']
+  ];
+  const ship = [s.envio_lima ? 'Envíos en Lima: ' + s.envio_lima : '', s.envio_provincias ? 'Provincias: ' + s.envio_provincias : '', s.medios_pago ? 'Pago: ' + s.medios_pago : ''].filter(Boolean);
+  const wa = waUrl('Hola, Lindi. ');
+  return '<section class="sec" id="pedir"><div class="wrap"><div class="row-head"><div><h2 class="h2">Cómo pedir</h2><p class="lead">Sin registro ni pago en línea: todo se conversa por WhatsApp.</p></div></div><div class="steps">' +
+    steps.map((x, i) => '<div class="step"><span class="n" style="background:var(--' + x[2] + ');color:' + x[3] + '">' + (i + 1) + '</span><h3>' + x[0] + '</h3><p>' + escapeHtml(x[1]) + '</p></div>').join('') + '</div>' +
+    ((ship.length || wa) ? '<div class="ship"><span>' + escapeHtml(ship.join(' · ')) + '</span>' + (wa ? '<a class="btn light" ' + linkAttrs(wa) + '>Escríbenos por WhatsApp</a>' : '') + '</div>' : '') + '</div></section>';
+}
+
+function footerHtml() {
+  const s = settings(), wa = waUrl('Hola, Lindi. ');
+  return '<div class="wrap"><div class="top"><div class="brand">' + logoHtml(64, 'crema') + '<div class="slogan">todo lo lindo de la infancia</div><div class="desc">Accesorios · juego · creatividad · espacios</div></div>' +
+    '<div class="cols"><div><span class="lbl" style="color:var(--linea-pie)">Tienda</span>' + SCOPES.map(sc => '<a href="#/tienda/' + sc.id + '">' + sc.name + '</a>').join('') + '</div>' +
+    '<div><span class="lbl" style="color:var(--linea-pie)">Lindiland</span><a href="#/carta">Carta a los papás</a><a href="#/lindiland">Quiénes somos</a><a href="#/como-pedir">Cómo pedir</a></div>' +
+    '<div><span class="lbl" style="color:var(--linea-pie)">Conversemos</span>' + (wa ? '<a ' + linkAttrs(wa) + '>WhatsApp</a>' : '') +
+    (s.instagram ? '<a href="https://www.instagram.com/' + escapeHtml(s.instagram) + '/" target="_blank" rel="noopener">Instagram</a>' : '') +
+    (s.tiktok ? '<a href="https://www.tiktok.com/@' + escapeHtml(s.tiktok) + '" target="_blank" rel="noopener">TikTok</a>' : '') + '</div></div></div>' +
+    '<div class="base"><span class="sign">Somos Lindi.</span><small>© ' + new Date().getFullYear() + ' Lindi · Lima, Perú' + (s.instagram ? ' · @' + escapeHtml(s.instagram) : '') + '</small></div></div>';
+}
+
+function paintAnn() {
+  const ann = document.getElementById('ann');
+  const notes = ['aviso_1', 'aviso_2', 'aviso_3'].map(k => fill(settings()[k])).filter(Boolean);
+  if (route()[0] === 'home' && notes.length) {
+    const t = notes[((state.ann % notes.length) + notes.length) % notes.length];
+    ann.innerHTML = (notes.length > 1 ? '<button data-act="annPrev" aria-label="Aviso anterior">‹</button>' : '') + '<span>' + escapeHtml(t) + '</span>' + (notes.length > 1 ? '<button data-act="annNext" aria-label="Aviso siguiente">›</button>' : '');
+  } else ann.textContent = 'Accesorios · juego · creatividad · espacios';
+}
+
+function paintChrome() {
+  paintAnn();
+  const wa = waUrl('Hola, Lindi. ');
+  const navWa = document.getElementById('nav-wa');
+  navWa.href = wa || '#/como-pedir';
+  navWa.hidden = !wa;
+  document.getElementById('footer').innerHTML = footerHtml();
+}
+
+function route() {
+  const h = location.hash || '#/';
+  if (h.indexOf('#/p/') === 0) { try { return ['product', decodeURIComponent(h.slice(4))]; } catch (e) { return ['product', '']; } }
+  if (h.indexOf('#/tienda') === 0) return ['tienda', h.slice(9)];
+  if (h === '#/lindiland' || h === '#/carta') return ['lindiland'];
+  if (h === '#/pedido') return ['pedido'];
+  if (h === '#/listo') return ['listo'];
+  return ['home'];
+}
+
+// Foto de Drive que no carga (sin compartir, borrada): se cambia por las rayitas.
+function wireImages(root) {
+  if (!root) return;
+  root.querySelectorAll('img[data-fb]').forEach(img => {
+    const swap = () => { const f = JSON.parse(img.dataset.fb); img.outerHTML = photoHtml('', '', f[0], f[1], f[2], f[3]); };
+    if (img.complete && !img.naturalWidth) swap();
+    else img.addEventListener('error', swap, { once: true });
+  });
+}
+
+function render() {
+  const r = route();
+  const main = document.getElementById('main');
+  main.innerHTML = VIEWS[r[0]](r[1]);
+  wireImages(main);
+  paintChrome();
+  paintBubble();
+}
+
+// El carrusel solo repinta la portada; la barra de avisos tiene su propio contador.
+function nextSlide(step) {
+  const n = Math.max(1, slidesNow().length);
+  state.slide = (state.slide + step + n) % n;
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  hero.outerHTML = heroHtml();
+  wireImages(document.getElementById('hero'));
+}
+function nextAnn(step) {
+  state.ann += step;
+  paintAnn();
+}
+// Avance automático: se detiene con el botón de pausa, con el mouse encima o con el foco del teclado
+// dentro (WCAG 2.2.2), y vuelve a contar desde cero tras un cambio manual.
+let pointerOnHero = false;
+let slideTimer = null;
+function restartTimer() {
+  clearInterval(slideTimer);
+  slideTimer = setInterval(() => {
+    if (route()[0] !== 'home' || document.hidden || state.paused || pointerOnHero) return;
+    const a = document.activeElement;
+    if (a && a.closest && a.closest('#hero, #ann')) return;
+    nextSlide(1);
+    nextAnn(1);
+  }, SLIDE_MS);
+}
+document.addEventListener('mouseover', ev => { pointerOnHero = !!ev.target.closest('#hero, #ann'); });
+restartTimer();
+
+// ---------- Enviar pedido ----------
+
+// El mensaje termina en "Mi distrito:" para que el cliente lo complete en el chat, sin formulario previo.
+function buildMessage(lines, total, pending, code) {
+  const out = ['¡Hola, Lindi! Quiero hacer este pedido:', ''];
+  lines.forEach(i => {
+    out.push('• ' + i.qty + ' × ' + i.name + ' · ' + (i.price ? money(i.price * i.qty) : 'precio por confirmar'));
+    if (i.choice) out.push('   ' + i.choice);
+  });
+  out.push('', 'Total: ' + (total ? money(total) + (pending ? ' + por confirmar' : '') : 'por confirmar'));
+  // Referencia discreta para que la dueña encuentre la fila en Solicitudes; al azar, no dice cuántos pedidos hay.
+  if (code) out.push('Ref. ' + code);
+  out.push('', 'Mi distrito: ');
+  return out.join('\n');
+}
+
+function showSendError(msg) {
+  const err = document.getElementById('form-err');
+  if (err) err.textContent = msg;
+  else { state.notice = msg; render(); }
+}
+
+// Un toque: desde Tu pedido, la burbuja o la ficha. Anota la solicitud y abre WhatsApp.
+async function sendOrder(btn) {
+  if (!state.list.length) return;
+  if (!settings().whatsapp) { showSendError('Los pedidos todavía no están abiertos.'); return; }
+  const label = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Abriendo WhatsApp…'; }
+  const payload = { items: state.list.map(l => ({ id: l.id, qty: l.qty, choice: l.choice })) };
+  let res = null;
+  try {
+    const r = await fetchWithTimeout(CONFIG.api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }, 15000);
+    res = await r.json();
+  } catch (e) {
+    res = null;
+  }
+  // Un rechazo por datos (nombre, producto retirado) se muestra. Si la hoja no responde o no pudo anotarlo
+  // (retry: ocupada, topes), igual se abre WhatsApp sin código: un pedido real nunca se pierde por la hoja.
+  if (res && !res.ok && !res.retry) {
+    if (btn && btn.isConnected) { btn.disabled = false; btn.textContent = label; }
+    showSendError(res.error || 'No se pudo enviar el pedido.');
+    return;
+  }
+  if (res && !res.ok) res = null;
+  const choices = {};
+  state.list.forEach(l => { choices[l.id] = (l.choice || '').trim(); });
+  const lines = res && Array.isArray(res.items) && res.items.length
+    ? res.items.map(i => Object.assign({}, i, { choice: choices[i.id] || '' }))
+    : state.list.filter(l => byId(l.id)).map(l => { const p = byId(l.id); return { id: l.id, name: p.name, qty: l.qty, price: p.price, choice: choices[l.id] || '' }; });
+  const total = res && typeof res.total === 'number' ? res.total : lines.reduce((s, i) => s + i.price * i.qty, 0);
+  const pending = lines.some(i => !i.price);
+  const code = (res && res.code) || '';
+  const url = waUrl(buildMessage(lines, total, pending, code));
+  writeStore(STORE_LAST, { code: code, url: url, at: Date.now() });
+  state.list = [];
+  saveList();
+  location.hash = '#/listo';
+  location.href = url;
+}
+
+// ---------- Eventos ----------
+
+const ACTIONS = {
+  add(el) { addToList(el.dataset.id, 1); render(); },
+  plus(el) { const l = lineOf(el.dataset.id); setQty(el.dataset.id, l.qty + 1); render(); },
+  minus(el) { const l = lineOf(el.dataset.id); setQty(el.dataset.id, l.qty - 1); render(); },
+  remove(el) { setQty(el.dataset.id, 0); render(); },
+  clear() { state.list = []; saveList(); render(); },
+  retry() { state.failed = false; render(); loadContent(); },
+  slide(el) { nextSlide(Number(el.dataset.i) - state.slide); restartTimer(); },
+  pause() { state.paused = !state.paused; nextSlide(0); },
+  annNext() { nextAnn(1); restartTimer(); },
+  annPrev() { nextAnn(-1); restartTimer(); },
+  carta() { state.carta = !state.carta; render(); },
+  photo(el) { state.photo = Number(el.dataset.i); render(); },
+  pdPlus() { state.qty = Math.min(MAX_QTY, state.qty + 1); render(); },
+  pdMinus() { state.qty = Math.max(1, state.qty - 1); render(); },
+  pdAdd(el) { if (addToList(el.dataset.id, state.qty, state.note.trim())) { state.qty = 1; state.note = ''; } render(); },
+  pdBuy(el) { if (addToList(el.dataset.id, state.qty, state.note.trim())) { state.qty = 1; state.note = ''; sendOrder(el); } else render(); },
+  send(el) { sendOrder(el); }
+};
+
+document.addEventListener('click', ev => {
+  const el = ev.target.closest('[data-act]');
+  if (el && ACTIONS[el.dataset.act]) {
+    ev.preventDefault();
+    const act = el.dataset.act, id = el.dataset.id, i = el.dataset.i;
+    ACTIONS[act](el);
+    // Cada acción vuelve a pintar: se devuelve el foco al mismo botón para teclado y lector de pantalla.
+    const same = Array.from(document.querySelectorAll('[data-act="' + act + '"]')).find(x => x.dataset.id === id && x.dataset.i === i);
+    if (same && document.activeElement !== same) same.focus({ preventScroll: true });
+    return;
+  }
+  // El menú del celular se cierra al elegir un enlace.
+  if (ev.target.closest('#links a')) toggleMenu(false);
+});
+function toggleMenu(open) {
+  document.getElementById('links').classList.toggle('open', open);
+  document.getElementById('menu-btn').setAttribute('aria-expanded', String(open));
+}
+document.getElementById('menu-btn').addEventListener('click', () => toggleMenu(!document.getElementById('links').classList.contains('open')));
+document.addEventListener('input', ev => {
+  if (ev.target.id === 'pd-note') { state.note = ev.target.value.slice(0, 200); return; }
+  const id = ev.target.dataset && ev.target.dataset.choice;
+  if (!id) return;
+  const line = lineOf(id);
+  if (line) { line.choice = ev.target.value.slice(0, 200); writeStore(STORE_LIST, state.list); }
+});
+window.addEventListener('hashchange', () => {
+  state.notice = ''; state.photo = 0; state.qty = 1; state.note = '';
+  if (location.hash === '#/carta') state.carta = true;
+  toggleMenu(false);
+  render();
+  if (!scrollToTarget()) window.scrollTo(0, 0);
+});
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape') toggleMenu(false); });
+// #/carta y #/como-pedir bajan a su sección (también al abrir el enlace directo, cuando ya cargó el contenido).
+function scrollToTarget() {
+  const target = location.hash === '#/carta' ? 'carta' : location.hash === '#/como-pedir' ? 'pedir' : '';
+  if (target) setTimeout(() => { const el = document.getElementById(target); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 60);
+  return !!target;
+}
+window.addEventListener('storage', ev => { if (ev.key === STORE_LIST) { state.list = readStore(STORE_LIST, []); pruneList(); render(); } });
+window.addEventListener('resize', paintBubble);
+
+document.getElementById('nav-logo').innerHTML = logoHtml(56);
+if (location.hash === '#/carta') state.carta = true;
+render();
+loadContent();
+</script>
+</body>
+</html>

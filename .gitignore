@@ -1,0 +1,4 @@
+node_modules/
+.env
+gas/.clasp.json
+.clasprc.json
