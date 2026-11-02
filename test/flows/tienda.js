@@ -85,6 +85,15 @@ const SETTINGS = { whatsapp: WA, fondo: 'blanco', aviso_1: 'Envíos en Lima: {en
     await ctx.close();
   }
 
+  // --- Sin productos publicados: el bloque de color de arriba igual sale (portada de respaldo) ---
+  {
+    const { p, ctx } = await open({ items: [], settings: { novedad_titulo: 'Los dulces', novedad_destino: 'dulces-pasteleria' } });
+    expect('respaldo: bloque de color', await p.textContent('#hero h1'), 'Bienvenidos a Lindiland.');
+    expect('respaldo: sin bienvenida repetida', await p.$$eval('.welcome', xs => xs.length), 0);
+    expect('novedad de producto sin publicar no sale', await p.$$eval('.ed.news', xs => xs.length), 0);
+    await ctx.close();
+  }
+
   // --- Fondo: ajuste de la hoja y vista previa por URL ---
   {
     let o = await open({ settings: { fondo: 'crema' } });

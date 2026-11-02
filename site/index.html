@@ -667,7 +667,8 @@ const VIEWS = {
     const best = (featured.length ? featured : all).slice(0, 8);
     const scopesWith = SCOPES.filter(sc => all.some(p => scopeOf(p.scope).id === sc.id));
     let h = heroHtml();
-    h += '<section class="welcome"><h2 class="h2">Bienvenidos a Lindiland.</h2><p>Diseñamos las pequeñas cosas que hacen grande su mundo.</p></section>';
+    // Si la portada de respaldo ya dice la bienvenida, no se repite debajo.
+    if (slidesNow().length) h += '<section class="welcome"><h2 class="h2">Bienvenidos a Lindiland.</h2><p>Diseñamos las pequeñas cosas que hacen grande su mundo.</p></section>';
     if (scopesWith.length) {
       h += '<div class="wrap"><div class="blocks">' + scopesWith.slice(0, 4).map(sc =>
         '<a class="block" href="#/tienda/' + sc.id + '"><span class="ph">' + photoHtml(s['foto_' + sc.id], sc.name, sc.c, sc.pose, '', 1.5) + '</span>' +
@@ -679,7 +680,10 @@ const VIEWS = {
         noticeHtml() + '<div class="grid small">' + best.map(p => cardHtml(p, false)).join('') + '</div></div></section>';
     }
     const xmas = christmasOn() && s.navidad_texto;
-    const newsT = fill(s.novedad_titulo);
+    // La novedad que apunta a un producto sin publicar no sale (no se anuncia lo que no se puede pedir).
+    const newsTo = String(s.novedad_destino || '').trim();
+    const newsOk = !newsTo || ['tienda', 'lindiland', 'whatsapp', 'como-pedir', 'pedir'].indexOf(newsTo.toLowerCase()) >= 0 || SCOPES.some(x => x.id === newsTo.toLowerCase()) || byId(newsTo);
+    const newsT = newsOk ? fill(s.novedad_titulo) : null;
     if (xmas || newsT) {
       h += '<section class="sec"><div class="wrap duo">';
       if (xmas) h += '<div class="ed blue"><span class="kicker">Navidad ' + new Date().getFullYear() + '</span><div class="t">Regalos de Navidad</div><p style="font-size:17px;line-height:1.5;font-weight:700;max-width:380px">' + escapeHtml(s.navidad_texto) + '</p>' +
@@ -829,9 +833,12 @@ const SLIDE_LOOK = {
   verde: { bg: 'var(--verde)', fg: 'var(--crema)', cta: 'btn light', st: 'background:var(--amarillo);color:var(--cacao)', char: 'crema' }
 };
 const SLIDE_POSES = ['saluda', 'salta', 'camina', 'celebra', 'saluda', 'camina'];
+// Portada de respaldo: el bloque de color de arriba nunca falta, aunque ninguna diapositiva esté lista
+// (por ejemplo, con los productos todavía en borrador).
+const FALLBACK_SLIDE = { color: 'amarillo', kicker: 'Accesorios · juego · creatividad · espacios', title: 'Bienvenidos a Lindiland.', text: 'Diseñamos las pequeñas cosas que hacen grande su mundo.', cta: 'Ver la tienda', to: 'tienda', cta2: 'Cómo pedir', to2: 'como-pedir', photo: '', sticker: '', stickerText: '', accessory: '' };
 function heroHtml() {
-  const list = slidesNow();
-  if (!list.length) return '';
+  let list = slidesNow();
+  if (!list.length) list = [FALLBACK_SLIDE];
   const i = state.slide % list.length, sl = list[i], look = SLIDE_LOOK[sl.color] || SLIDE_LOOK.amarillo;
   return '<section class="hero" id="hero" style="background:' + look.bg + ';color:' + look.fg + '" aria-roledescription="carrusel"><div class="wrap"><div class="txt">' +
     (sl.kicker ? '<span class="kicker">' + escapeHtml(sl.kicker) + '</span>' : '') + '<h1>' + escapeHtml(sl.title) + '</h1>' + (sl.text ? '<p class="sub">' + escapeHtml(sl.text) + '</p>' : '') +
