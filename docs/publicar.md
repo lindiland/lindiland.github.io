@@ -15,6 +15,11 @@ Ids y enlaces reales en `.env` (no se sube). La web es pública: el enlace /exec
 5. **GitHub**: crear el repositorio público `lindi-web`, subir esta carpeta (`git init`, commit, push a `main`). En el repositorio: Settings → Pages → Source: **GitHub Actions**. La web queda en `https://<usuario>.github.io/lindi-web/`.
 6. Llenar Catálogo, Portada y Ajustes, subir fotos al Drive (compartir: cualquiera con el enlace), marcar `publicado`.
 
+## Estado (2-nov-2026)
+- Hoja y script creados con `test/tools/crear-tienda.ps1` (se corre con `powershell -ExecutionPolicy Bypass -File`, porque Windows bloquea scripts). Implementación @1.
+- GitHub: cuenta `lindiland`, repositorio público `lindiland/lindiland.github.io`, Pages con GitHub Actions. Web en **https://lindiland.github.io**.
+- Git y GitHub CLI instalados con winget (`C:\Program Files\Git`, `C:\Program Files\GitHub CLI`). Sesión de `gh` con permiso `workflow` (`test/tools/login-github.cmd`, `test/tools/permiso-workflow.cmd`).
+
 ## Cambios después
 - **Web**: `npm test` → commit y push a `main`; GitHub Actions la publica sola en 1–2 min.
 - **Script**: `npm test` → desde `gas\`: `clasp.cmd push --force` y `clasp.cmd update-deployment <TIENDA_DEPLOYMENT_ID> -d "v0.N - tipo: resumen sin tildes"`. Nunca una implementación nueva.
