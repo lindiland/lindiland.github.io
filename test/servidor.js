@@ -182,9 +182,94 @@ expect('marca 2 vencidas', gas.run('marcarVencidas'), 2);
 expect('estados', sol.data.slice(1).map(r => r[2]), ['vencida', 'pendiente', 'pagado', 'vencida']);
 expect('no toca otras columnas', sol.data[1][3], 'A');
 
+// --- Hoja de una versión anterior: Preparar hoja agrega las columnas nuevas al final, sin mover las otras ---
+{
+  const g = load(); g.run('prepararHoja');
+  const sh = g.sheet('Catálogo');
+  sh.data.forEach(r => { r.length = 18; });
+  g.run('prepararHoja');
+  expect('columnas nuevas al final', sh.data[0].slice(16), ['publicado', 'orden', 'complementos', 'solo_sugerencia']);
+  g.run('prepararHoja');
+  expect('sin columnas duplicadas', sh.data[0].length, 20);
+}
+
+// --- Complementos y "solo como sugerencia" ---
+{
+  const g = load(); g.run('prepararHoja'); publishAll(g);
+  const sh = g.sheet('Catálogo');
+  setCell(sh, 'kit-pizzeria', 'complementos', 'lazos, kit-sushi\nkit-falso');
+  setCell(sh, 'lazos', 'solo_sugerencia', true);
+  g.run('refrescarCatalogo');
+  const items = g.get().items;
+  expect('complementos como lista', items.find(i => i.id === 'kit-pizzeria').extras, ['lazos', 'kit-sushi', 'kit-falso']);
+  expect('solo como sugerencia', [items.find(i => i.id === 'lazos').onlyExtra, items.find(i => i.id === 'kit-sushi').onlyExtra], [true, false]);
+  expect('un complemento se puede pedir', g.post({ items: [{ id: 'lazos', qty: 1 }] }).ok, true);
+}
+
+// --- id automático: un producto escrito a mano recibe su id con el nombre ---
+{
+  const g = load(); g.run('prepararHoja');
+  const sh = g.sheet('Catálogo');
+  const blank = () => sh.data[0].map(() => '');
+  const a = blank(); a[1] = 'Mandil + gorro de Chef'; sh.data.push(a);
+  const b = blank(); b[1] = 'Kit La Pizzería'; sh.data.push(b);
+  const c2 = blank(); c2[1] = 'Kit La Pizzería'; sh.data.push(c2);
+  g.run('onEdit', { range: { getSheet: () => ({ getName: () => 'Catálogo' }) } });
+  expect('id con el nombre', a[0], 'mandil-gorro-de-chef');
+  expect('id sin repetir', [b[0], c2[0]], ['kit-la-pizzeria', 'kit-la-pizzeria-2']);
+}
+
+// --- Panel: leer, crear, editar, ajustes y estado de solicitudes ---
+{
+  const g = load(); g.run('prepararHoja');
+  const sh = g.sheet('Catálogo');
+  let d = g.run('panelDatos');
+  expect('panel: productos (borradores también)', d.products.length, 5);
+  expect('panel: casillas como sí/no', [d.products[0].publicado, d.products[0].destacado], [false, true]);
+  // google.script.run no puede devolver objetos Date: el panel no recibiría nada.
+  const hasDate = v => v && typeof v === 'object' && (typeof v.getTime === 'function' || Object.values(v).some(hasDate));
+  publishAll(g); g.post({ items: [{ id: 'lazos', qty: 1 }] });
+  g.sheet('Ajustes').data.find(x => x[0] === 'navidad_fecha_limite')[1] = new Date(2026, 11, 15);
+  d = g.run('panelDatos');
+  expect('panel: sin objetos Date', hasDate(d), false);
+  expect('panel: fecha para el calendario', d.settings.find(s => s.clave === 'navidad_fecha_limite').valor.length, 10);
+  sh.data.slice(1).forEach(x => { x[col(sh, 'publicado')] = false; });
+  const neu = { nombre: 'Toppings extra', precio: '25', ambito: 'Juego', publicado: true, solo_sugerencia: true, complementos: [] };
+  let r = g.run('panelGuardarProducto', neu);
+  expect('panel: nuevo con id del nombre', r.id, 'toppings-extra');
+  expect('panel: fila nueva', sh.data.length - 1, 6);
+  const pz = r.datos.products.find(p => p.id === 'kit-pizzeria');
+  pz.precio = '149'; pz.publicado = true; pz.complementos = ['toppings-extra', 'kit-pizzeria'];
+  sh.data[1].push('columna que el panel no conoce');
+  r = g.run('panelGuardarProducto', pz);
+  expect('panel: edita la misma fila', [sh.data.length - 1, r.id], [6, 'kit-pizzeria']);
+  expect('panel: guarda precio, casilla y complementos (sin sí mismo)', [sh.data[1][col(sh, 'precio')], sh.data[1][col(sh, 'publicado')], sh.data[1][col(sh, 'complementos')]], [149, true, 'toppings-extra']);
+  expect('panel: no borra lo que no conoce', sh.data[1][sh.data[1].length - 1], 'columna que el panel no conoce');
+  expect('panel: la web ve el cambio', g.get().items.map(i => i.id), ['kit-pizzeria', 'toppings-extra']);
+  r = g.run('panelGuardarProducto', Object.assign({}, neu));
+  expect('panel: mismo nombre, otro id', r.id, 'toppings-extra-2');
+  let threw = false; try { g.run('panelGuardarProducto', { nombre: '  ' }); } catch (e) { threw = true; }
+  expect('panel: sin nombre no guarda', threw, true);
+
+  d = g.run('panelGuardarAjustes', { whatsapp: '51911222333', navidad_fecha_limite: '2026-12-15', clave_rara: 'x' });
+  const aj = g.sheet('Ajustes').data;
+  expect('panel: ajuste guardado', aj.find(x => x[0] === 'whatsapp')[1], '51911222333');
+  expect('panel: fecha como fecha', typeof aj.find(x => x[0] === 'navidad_fecha_limite')[1].getTime, 'function');
+  expect('panel: claves desconocidas no se escriben', aj.some(x => x[0] === 'clave_rara'), false);
+
+  const code = g.post({ items: [{ id: 'kit-pizzeria', qty: 1 }] }).code;
+  const find = x => x.orders.find(o => o.codigo === code);
+  d = g.run('panelDatos');
+  expect('panel: pedido visible', find(d).estado, 'pendiente');
+  d = g.run('panelEstadoSolicitud', code, 'pagado');
+  expect('panel: marca pagado', find(d).estado, 'pagado');
+  threw = false; try { g.run('panelEstadoSolicitud', code, 'borrado'); } catch (e) { threw = true; }
+  expect('panel: estado inventado no', threw, true);
+}
+
 // --- Menú ---
 gas.run('onOpen');
-expect('menú de la hoja', gas.log.menus[0].items, ['prepararHoja', 'marcarVencidas', 'refrescarCatalogo']);
+expect('menú de la hoja', gas.log.menus[0].items, ['abrirPanel', 'prepararHoja', 'marcarVencidas', 'refrescarCatalogo']);
 
 console.log('ERR', errs);
 process.exit(errs.length ? 1 : 0);

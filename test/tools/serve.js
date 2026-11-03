@@ -2,7 +2,8 @@
 // Vista previa: http://localhost:8767/demo muestra la web con la hoja de ejemplo. /demo-api corre el mismo
 // gas/Code.gs sobre una hoja simulada (test/gas-mock.js) con los borradores de "Preparar hoja" publicados,
 // así se ve exactamente lo que la dueña tendría tras llenar la hoja. Los pedidos de la demo no salen de aquí.
-// Agregar ?fondo=crema a /demo muestra la otra opción de fondo.
+// Agregar ?fondo=crema a /demo muestra la otra opción de fondo. /panel muestra el panel de la hoja (gas/Panel.html)
+// sobre esa misma hoja simulada.
 const http = require('http'), fs = require('fs'), path = require('path');
 const dir = path.resolve(__dirname, '..', '..', 'site');
 const PHOTOS = path.resolve(__dirname, '..', '..', '..', '..', '..'); // Documents\Lindi
@@ -19,9 +20,18 @@ function demoSheet() {
   set('whatsapp', '51999999999');
   set('navidad_fecha_limite', new Date(new Date().getFullYear(), 11, 15));
   set('envio_lima', '2 a 3 días hábiles');
+  // Complementos de ejemplo (solo en la demo) para ver las sugerencias en la ficha y en el pedido.
+  const head = cat.data[0];
+  const row = o => head.map(h => (h in o ? o[h] : ''));
+  cat.data.push(row({ id: 'mandil-chef', nombre: 'Mandil + gorro de chef', ambito: 'Juego', coleccion: 'La Pizzería', precio: 45, para_jugar: 'ser chef de verdad', publicado: true, orden: 6 }));
+  cat.data.push(row({ id: 'toppings-extra', nombre: 'Toppings extra para la Pizzería', ambito: 'Juego', precio: 25, publicado: true, solo_sugerencia: true, orden: 7 }));
+  cat.data.find(r => r[0] === 'kit-pizzeria')[head.indexOf('complementos')] = 'mandil-chef, toppings-extra';
   gas.run('refrescarCatalogo');
   return gas;
 }
+// Panel.html fuera de Google: google.script.run se reemplaza por llamadas a /demo-panel/<función>.
+const PANEL_FNS = ['panelDatos', 'panelGuardarProducto', 'panelGuardarAjustes', 'panelEstadoSolicitud'];
+const RUN_SHIM = '<script>window.google={script:{run:(function mk(ok,fail){return new Proxy({},{get:(t,k)=>k==="withSuccessHandler"?f=>mk(f,fail):k==="withFailureHandler"?f=>mk(ok,f):(...a)=>fetch("/demo-panel/"+k,{method:"POST",body:JSON.stringify(a)}).then(r=>r.json()).then(j=>j.error?fail&&fail({message:j.error}):ok&&ok(j.result))})})()}};</script>';
 // Code.gs solo acepta fotos https; en la demo se pone a mano la foto local de la pizza corazón.
 function withDemoPhotos(c) {
   const pizza = 'http://localhost:' + PORT + '/demo-fotos/Pizza%20corazon.png';
@@ -43,6 +53,25 @@ function start() {
         req.on('data', c => { body += c; });
         req.on('end', () => { res.writeHead(200, { 'Content-Type': types['.json'] }); res.end(JSON.stringify(gas.post(body))); });
         return;
+      }
+      if (url.indexOf('/demo-panel/') === 0) {
+        gas = gas || demoSheet();
+        const fn = url.slice('/demo-panel/'.length);
+        let body = '';
+        req.on('data', c => { body += c; });
+        req.on('end', () => {
+          let out;
+          try { if (PANEL_FNS.indexOf(fn) < 0) throw new Error('función no permitida'); out = { result: gas.run(fn, ...JSON.parse(body || '[]')) }; }
+          catch (e) { out = { error: e.message }; }
+          res.writeHead(200, { 'Content-Type': types['.json'] }); res.end(JSON.stringify(out));
+        });
+        return;
+      }
+      if (url === '/panel') {
+        return fs.readFile(path.resolve(__dirname, '..', '..', 'gas', 'Panel.html'), 'utf8', (e, html) => {
+          res.writeHead(200, { 'Content-Type': types['.html'], 'Cache-Control': 'no-store' });
+          res.end(html.replace('<head>', '<head>' + RUN_SHIM));
+        });
       }
       if (url.indexOf('/demo-fotos/') === 0) {
         const f = path.join(PHOTOS, path.basename(url));

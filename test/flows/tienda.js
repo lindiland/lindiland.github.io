@@ -272,6 +272,33 @@ const SETTINGS = { whatsapp: WA, fondo: 'blanco', aviso_1: 'Envíos en Lima: {en
     await off.ctx.close();
   }
 
+  // --- Complementos: "solo como sugerencia" no sale en la tienda; la ficha y el pedido los sugieren ---
+  {
+    const items = ITEMS.map(x => Object.assign({}, x, x.id === 'kit-pizzeria' ? { extras: ['mandil', 'toppings', 'no-existe'] } : {})).concat([
+      Object.assign({}, base, { id: 'mandil', name: 'Mandil + gorro de chef', price: 45, featured: false }),
+      Object.assign({}, base, { id: 'toppings', name: 'Toppings extra', price: 25, featured: false, onlyExtra: true }),
+      Object.assign({}, base, { id: 'manteles', name: 'Manteles con comandas', price: 35, featured: false, extras: ['kit-sushi'] })
+    ]);
+    const { p, ctx } = await open({ items, viewport: { width: 375, height: 812 }, hash: '#/tienda' });
+    const cards = await p.$$eval('.grid .card h3', xs => xs.map(x => x.textContent));
+    expect('sugerencia: no sale en la tienda', [cards.includes('Toppings extra'), cards.includes('Mandil + gorro de chef')], [false, true]);
+    await p.goto('http://localhost:8767/#/p/kit-pizzeria'); await p.waitForTimeout(400);
+    expect('ficha: combínalo con (sin ids inexistentes)', await p.$$eval('#combina h3', xs => xs.map(x => x.textContent)), ['Mandil + gorro de chef', 'Toppings extra']);
+    await p.goto('http://localhost:8767/#/p/kit-sushi'); await p.waitForTimeout(400);
+    expect('ficha: al revés, el complemento sugiere su kit', await p.$$eval('#combina h3', xs => xs.map(x => x.textContent)), ['Manteles con comandas']);
+    await p.goto('http://localhost:8767/#/p/toppings'); await p.waitForTimeout(400);
+    expect('ficha de un extra: abre y sugiere su kit', await p.$$eval('#combina h3', xs => xs.map(x => x.textContent)), ['Kit La Pizzería']);
+    await p.goto('http://localhost:8767/#/p/kit-pizzeria'); await p.waitForTimeout(400);
+    await p.click('[data-act="pdAdd"]');
+    await p.goto('http://localhost:8767/#/pedido'); await p.waitForTimeout(400);
+    expect('pedido: complementos y otro kit', await p.$$eval('#sugs .sug a.name', xs => xs.map(x => x.textContent)), ['Mandil + gorro de chef', 'Toppings extra', 'Kit El Sushi bar', 'Manteles con comandas']);
+    await p.click('#sugs [data-id="toppings"]'); await p.waitForTimeout(300);
+    expect('pedido: agregar una sugerencia', await p.$$eval('.line .name', xs => xs.map(x => x.textContent)), ['Kit La Pizzería', 'Toppings extra']);
+    expect('pedido: ya no se sugiere lo agregado', await p.$$eval('#sugs .sug a.name', xs => xs.map(x => x.textContent)).then(x => x.includes('Toppings extra')), false);
+    expect('pedido: sin desborde', await p.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
+    await ctx.close();
+  }
+
   console.log('ERR', errs); await b.close();
   process.exit(errs.length ? 1 : 0);
 })();

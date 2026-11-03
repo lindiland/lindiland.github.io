@@ -10,7 +10,10 @@ const CATALOG_SHEET = 'Catálogo';
 const SLIDES_SHEET = 'Portada';
 const SETTINGS_SHEET = 'Ajustes';
 const ORDERS_SHEET = 'Solicitudes';
-const CATALOG_HEAD = ['id', 'nombre', 'ambito', 'coleccion', 'precio', 'precio_texto', 'descripcion', 'para_jugar', 'edad', 'aviso', 'material', 'personalizar', 'sello', 'destacado', 'foto', 'fotos_extra', 'publicado', 'orden'];
+// Columnas nuevas van al final: así no se corren las letras de las que la dueña ya conoce.
+const CATALOG_HEAD = ['id', 'nombre', 'ambito', 'coleccion', 'precio', 'precio_texto', 'descripcion', 'para_jugar', 'edad', 'aviso', 'material', 'personalizar', 'sello', 'destacado', 'foto', 'fotos_extra', 'publicado', 'orden', 'complementos', 'solo_sugerencia'];
+const CATALOG_CHECKS = ['publicado', 'destacado', 'solo_sugerencia'];
+const WEB_URL = 'https://lindiland.github.io';
 const SLIDES_HEAD = ['orden', 'publicado', 'color', 'etiqueta', 'titulo', 'texto', 'boton', 'destino', 'boton2', 'destino2', 'foto', 'sticker', 'sticker_texto', 'accesorio'];
 const ORDERS_HEAD = ['codigo', 'fecha', 'estado', 'nombre', 'distrito', 'para', 'productos', 'total', 'nota'];
 const ORDER_STATES = ['pendiente', 'pagado', 'entregado', 'vencida', 'cancelado'];
@@ -123,6 +126,9 @@ function catalog_() {
         featured: isYes_(r.destacado),
         photo: photoUrl_(r.foto),
         photos: splitLinks_(r.fotos_extra).map(photoUrl_).filter(Boolean).slice(0, 6),
+        // ids de lo que se sugiere junto a este producto; la web ignora los que no estén publicados.
+        extras: splitLinks_(r.complementos).slice(0, 12),
+        onlyExtra: isYes_(r.solo_sugerencia),
         order: Number(r.orden) || 999
       };
     })
@@ -290,6 +296,7 @@ function marcarVencidas() {
 
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Lindi Tienda')
+    .addItem('Abrir panel', 'abrirPanel')
     .addItem('Preparar hoja', 'prepararHoja')
     .addItem('Marcar vencidas ahora', 'marcarVencidas')
     .addItem('Ver cambios en la web', 'refrescarCatalogo')
@@ -299,7 +306,31 @@ function onOpen() {
 // Al editar contenido se borra la copia guardada, para que la web muestre el cambio de inmediato.
 function onEdit(e) {
   const name = e && e.range && e.range.getSheet().getName();
+  if (name === CATALOG_SHEET) fillIds_();
   if (name === CATALOG_SHEET || name === SLIDES_SHEET || name === SETTINGS_SHEET) refrescarCatalogo();
+}
+
+// Un producto nuevo escrito a mano en la hoja recibe su id solo, a partir del nombre ("Mandil chef" → mandil-chef).
+function fillIds_() {
+  const sh = SpreadsheetApp.getActive().getSheetByName(CATALOG_SHEET);
+  if (!sh || sh.getLastRow() < 2) return;
+  const rows = sh.getRange(1, 1, sh.getLastRow(), sh.getLastColumn()).getValues();
+  const head = rows.shift().map(h => plain_(h).replace(/\s+/g, '_'));
+  const iId = head.indexOf('id'), iName = head.indexOf('nombre');
+  if (iId < 0 || iName < 0) return;
+  const taken = rows.map(r => text_(r[iId]));
+  rows.forEach((r, i) => {
+    if (taken[i] || !text_(r[iName])) return;
+    taken[i] = uniqueId_(r[iName], taken);
+    sh.getRange(i + 2, iId + 1).setValue(taken[i]);
+  });
+}
+
+function uniqueId_(name, taken) {
+  const base = plain_(name).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'producto';
+  let id = base;
+  for (let n = 2; taken.indexOf(id) >= 0; n++) id = base + '-' + n;
+  return id;
 }
 
 function refrescarCatalogo() {
@@ -310,6 +341,7 @@ function refrescarCatalogo() {
 function prepararHoja() {
   const ss = SpreadsheetApp.getActive();
   if (!ss.getSheetByName(CATALOG_SHEET)) setupCatalog_(ss);
+  else addColumns_(ss.getSheetByName(CATALOG_SHEET), CATALOG_HEAD);
   if (!ss.getSheetByName(SLIDES_SHEET)) setupSlides_(ss);
   setupSettings_(ss);
   if (!ss.getSheetByName(ORDERS_SHEET)) setupOrders_(ss);
@@ -324,15 +356,15 @@ function setupCatalog_(ss) {
   const small = 'Contiene piezas pequeñas. No apto para menores de 3 años.';
   // Borradores sin publicar: no salen en la web hasta que la dueña marque "publicado".
   const rows = [
-    ['kit-pizzeria', 'Kit La Pizzería', 'Juego', 'La Pizzería', 139, '', '4 porciones con salsa y queso, y 3 toppings que eliges tú. Fieltro cosido a mano.', 'cocinar, servir porciones y tomar pedidos', 'Desde 3 años', small, felt, 'Los 3 toppings que eliges', 'FAVORITO', true, '', '', false, 1],
-    ['kit-sangucheria', 'Kit La Sanguchería', 'Juego', 'La Sanguchería', 99, '', 'Sánguches de fieltro para armar capa por capa y servir. Fieltro cosido a mano.', 'armar capa por capa, atender y servir', 'Desde 3 años', small, felt, '', '', true, '', '', false, 2],
-    ['kit-sushi', 'Kit El Sushi bar', 'Juego', 'El Sushi bar', 89, '', 'Piezas de sushi de fieltro para preparar, servir y compartir. Fieltro cosido a mano.', 'preparar, servir y compartir', 'Desde 3 años', small, felt, '', 'NUEVO', true, '', '', false, 3],
-    ['dulces-pasteleria', 'Dulces La Pastelería', 'Juego', 'La Pastelería', '', 'desde S/25', 'Dulces de fieltro para la vitrina de casa. Se piden sueltos o en grupo. Fieltro cosido a mano.', 'hornear, armar la vitrina y vender', 'Desde 3 años', small, felt, 'Qué dulces quieres', 'PARA LA VITRINA', true, '', '', false, 4],
-    ['lazos', 'Lazos', 'Accesorios', '', '', '', 'Lazos de tela con gancho, en colores para combinar.', 'elegir, combinar colores y arreglarse solos', '', '', 'Tela y gancho metálico', 'Colores que prefieres', 'POCAS UNIDADES', true, '', '', false, 5]
+    ['kit-pizzeria', 'Kit La Pizzería', 'Juego', 'La Pizzería', 139, '', '4 porciones con salsa y queso, y 3 toppings que eliges tú. Fieltro cosido a mano.', 'cocinar, servir porciones y tomar pedidos', 'Desde 3 años', small, felt, 'Los 3 toppings que eliges', 'FAVORITO', true, '', '', false, 1, '', false],
+    ['kit-sangucheria', 'Kit La Sanguchería', 'Juego', 'La Sanguchería', 99, '', 'Sánguches de fieltro para armar capa por capa y servir. Fieltro cosido a mano.', 'armar capa por capa, atender y servir', 'Desde 3 años', small, felt, '', '', true, '', '', false, 2, '', false],
+    ['kit-sushi', 'Kit El Sushi bar', 'Juego', 'El Sushi bar', 89, '', 'Piezas de sushi de fieltro para preparar, servir y compartir. Fieltro cosido a mano.', 'preparar, servir y compartir', 'Desde 3 años', small, felt, '', 'NUEVO', true, '', '', false, 3, '', false],
+    ['dulces-pasteleria', 'Dulces La Pastelería', 'Juego', 'La Pastelería', '', 'desde S/25', 'Dulces de fieltro para la vitrina de casa. Se piden sueltos o en grupo. Fieltro cosido a mano.', 'hornear, armar la vitrina y vender', 'Desde 3 años', small, felt, 'Qué dulces quieres', 'PARA LA VITRINA', true, '', '', false, 4, '', false],
+    ['lazos', 'Lazos', 'Accesorios', '', '', '', 'Lazos de tela con gancho, en colores para combinar.', 'elegir, combinar colores y arreglarse solos', '', '', 'Tela y gancho metálico', 'Colores que prefieres', 'POCAS UNIDADES', true, '', '', false, 5, '', false]
   ];
   sh.getRange(1, 1, 1, CATALOG_HEAD.length).setValues([CATALOG_HEAD]).setFontWeight('bold');
   sh.getRange(2, 1, rows.length, CATALOG_HEAD.length).setValues(rows);
-  ['publicado', 'destacado'].forEach(h => sh.getRange(2, CATALOG_HEAD.indexOf(h) + 1, 200, 1).insertCheckboxes());
+  CATALOG_CHECKS.forEach(h => sh.getRange(2, CATALOG_HEAD.indexOf(h) + 1, 200, 1).insertCheckboxes());
   listColumn_(sh, CATALOG_HEAD, 'ambito', SCOPES);
   listColumn_(sh, CATALOG_HEAD, 'sello', BADGES);
   sh.setFrozenRows(1);
@@ -377,6 +409,101 @@ function setupOrders_(ss) {
   listColumn_(sh, ORDERS_HEAD, 'estado', ORDER_STATES, 2000);
   sh.setFrozenRows(1);
   return sh;
+}
+
+// Una hoja hecha con una versión anterior recibe al final las columnas que le falten (con sus casillas).
+function addColumns_(sh, head) {
+  const have = sh.getRange(1, 1, 1, Math.max(1, sh.getLastColumn())).getValues()[0].map(h => plain_(h).replace(/\s+/g, '_'));
+  head.filter(h => have.indexOf(h) < 0).forEach(h => {
+    const col = sh.getLastColumn() + 1;
+    sh.getRange(1, col).setValue(h).setFontWeight('bold');
+    if (CATALOG_CHECKS.indexOf(h) >= 0) sh.getRange(2, col, 200, 1).insertCheckboxes();
+  });
+}
+
+// ---------- Panel (menú Lindi Tienda → Abrir panel) ----------
+// Solo lo llama Panel.html dentro de la hoja (google.script.run), con la cuenta de Lindi.
+// La web pública no puede llamarlas: doGet responde JSON y nunca sirve el panel.
+
+function abrirPanel() {
+  const html = HtmlService.createHtmlOutputFromFile('Panel').setWidth(1180).setHeight(760);
+  SpreadsheetApp.getUi().showModelessDialog(html, 'Panel Lindi');
+}
+
+// Todo lo que el panel muestra. Sin fechas sueltas: google.script.run no puede devolver objetos Date.
+function panelDatos() {
+  const products = readRows_(CATALOG_SHEET).filter(r => text_(r.id) || text_(r.nombre)).map(r => {
+    const p = {};
+    CATALOG_HEAD.forEach(h => { p[h] = CATALOG_CHECKS.indexOf(h) >= 0 ? isYes_(r[h]) : text_(r[h]); });
+    p.complementos = splitLinks_(r.complementos);
+    p.vista = photoUrl_(r.foto);
+    return p;
+  });
+  const values = {};
+  readRows_(SETTINGS_SHEET).forEach(r => {
+    const v = r.valor;
+    values[plain_(r.clave)] = v && typeof v.getTime === 'function' ? Utilities.formatDate(v, 'America/Lima', 'yyyy-MM-dd') : text_(v);
+  });
+  const settings = SETTINGS.map(s => ({ clave: s[0], ayuda: s[2], valor: s[0] in values ? values[s[0]] : '' }));
+  const orders = readRows_(ORDERS_SHEET).filter(r => text_(r.codigo)).map(r => ({
+    codigo: text_(r.codigo),
+    fecha: r.fecha && typeof r.fecha.getTime === 'function' ? Utilities.formatDate(r.fecha, 'America/Lima', 'dd/MM HH:mm') : text_(r.fecha),
+    orden: r.fecha && typeof r.fecha.getTime === 'function' ? r.fecha.getTime() : 0,
+    estado: plain_(r.estado), productos: text_(r.productos), total: text_(r.total), nota: text_(r.nota), nombre: text_(r.nombre), distrito: text_(r.distrito)
+  })).sort((a, b) => b.orden - a.orden).slice(0, 60);
+  return { products, settings, orders, scopes: SCOPES, badges: BADGES, states: ORDER_STATES, web: WEB_URL };
+}
+
+// Guarda un producto del panel. Sin id = producto nuevo (id sacado del nombre). Solo escribe esa fila
+// y respeta las columnas que el panel no conoce.
+function panelGuardarProducto(p) {
+  const name = text_(p && p.nombre);
+  if (!name) throw new Error('Escribe el nombre del producto.');
+  const sh = SpreadsheetApp.getActive().getSheetByName(CATALOG_SHEET);
+  addColumns_(sh, CATALOG_HEAD);
+  const rows = sh.getRange(1, 1, sh.getLastRow(), sh.getLastColumn()).getValues();
+  const head = rows[0].map(h => plain_(h).replace(/\s+/g, '_'));
+  const ids = rows.slice(1).map(r => text_(r[head.indexOf('id')]));
+  let id = text_(p.id);
+  let at = id ? ids.indexOf(id) + 2 : 0;
+  if (at < 2) { id = uniqueId_(name, ids); at = rows.length + 1; }
+  const price = Number(String(p.precio || '').replace(',', '.').replace(/[^\d.]/g, ''));
+  const vals = { id: id, nombre: name, precio: price > 0 ? price : '', orden: Number(p.orden) || '' };
+  ['ambito', 'coleccion', 'precio_texto', 'descripcion', 'para_jugar', 'edad', 'aviso', 'material', 'personalizar', 'sello', 'foto', 'fotos_extra']
+    .forEach(h => { vals[h] = text_(p[h]); });
+  CATALOG_CHECKS.forEach(h => { vals[h] = !!p[h]; });
+  vals.complementos = (Array.isArray(p.complementos) ? p.complementos : []).map(text_).filter(x => x && x !== id).join(', ');
+  const row = at <= rows.length ? rows[at - 1].slice() : head.map(() => '');
+  head.forEach((h, i) => { if (h in vals) row[i] = vals[h]; });
+  sh.getRange(at, 1, 1, head.length).setValues([row]);
+  refrescarCatalogo();
+  return { id: id, datos: panelDatos() };
+}
+
+function panelGuardarAjustes(map) {
+  const sh = SpreadsheetApp.getActive().getSheetByName(SETTINGS_SHEET);
+  const rows = sh.getRange(1, 1, sh.getLastRow(), 2).getValues();
+  rows.forEach((r, i) => {
+    const key = plain_(r[0]);
+    if (!i || SETTING_KEYS.indexOf(key) < 0 || !map || !(key in map)) return;
+    let v = text_(map[key]);
+    const d = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (d) v = new Date(Number(d[1]), Number(d[2]) - 1, Number(d[3]));
+    const old = r[1] && typeof r[1].getTime === 'function' ? Utilities.formatDate(r[1], 'America/Lima', 'yyyy-MM-dd') : text_(r[1]);
+    if (old !== text_(map[key])) sh.getRange(i + 1, 2).setValue(v);
+  });
+  refrescarCatalogo();
+  return panelDatos();
+}
+
+function panelEstadoSolicitud(code, state) {
+  if (ORDER_STATES.indexOf(state) < 0) throw new Error('Estado no válido.');
+  const sh = SpreadsheetApp.getActive().getSheetByName(ORDERS_SHEET);
+  const codes = sh.getRange(2, 1, Math.max(1, sh.getLastRow() - 1), 1).getValues().map(r => text_(r[0]));
+  const i = codes.indexOf(text_(code));
+  if (i < 0) throw new Error('No encontré esa solicitud.');
+  sh.getRange(i + 2, ORDERS_HEAD.indexOf('estado') + 1).setValue(state);
+  return panelDatos();
 }
 
 function listColumn_(sh, head, name, values, rows) {

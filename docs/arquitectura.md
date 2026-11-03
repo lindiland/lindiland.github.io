@@ -19,7 +19,8 @@ GitHub guarda **el diseño** (cambia poco, lo cambia un agente). La hoja de Driv
 
 ## Hoja "Lindi Tienda"
 Los encabezados se leen sin tildes ni mayúsculas; las columnas se pueden mover.
-- **Catálogo** → `items`: id, nombre, ambito, coleccion, precio, precio_texto, descripcion, para_jugar, edad, aviso, material, personalizar, sello, destacado, foto, fotos_extra, publicado, orden. Solo sale lo publicado con id y nombre.
+- **Catálogo** → `items`: id, nombre, ambito, coleccion, precio, precio_texto, descripcion, para_jugar, edad, aviso, material, personalizar, sello, destacado, foto, fotos_extra, publicado, orden, complementos (→ `extras`, lista de ids), solo_sugerencia (→ `onlyExtra`: fuera de la tienda, solo en sugerencias). Solo sale lo publicado con id y nombre. Columnas nuevas siempre al final (`addColumns_`). Fila sin id → `onEdit` le pone uno sacado del nombre (`uniqueId_`).
+- **Panel** (`gas/Panel.html`, menú Abrir panel): diálogo de la hoja que llama `panelDatos`, `panelGuardarProducto`, `panelGuardarAjustes`, `panelEstadoSolicitud` por `google.script.run`. Solo lo abre quien edita la hoja; la web pública no puede llamarlas (doGet nunca sirve HTML). Nada de objetos Date en lo que devuelven.
 - **Portada** → `slides` (máx. 6): orden, publicado, color, etiqueta, titulo, texto, boton, destino, boton2, destino2, foto, sticker, sticker_texto, accesorio.
 - **Ajustes** → `settings`: clave/valor/ayuda. Solo salen las claves de `SETTINGS` en Code.gs (whatsapp, fondo, avisos, Navidad, envíos, pago, regalo, novedad, títulos y fotos de bloques, historia, redes). Fechas → "15 de diciembre"; fotos → miniatura; whatsapp → solo dígitos.
 - **Solicitudes**: codigo, fecha, estado, nombre, distrito, para, productos, total, nota. Columnas del público en formato texto; `clean_` neutraliza fórmulas.

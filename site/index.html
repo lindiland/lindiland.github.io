@@ -292,6 +292,15 @@ textarea.input{min-height:90px;resize:vertical}
 .total b{font-family:var(--titulo);font-weight:800;font-size:clamp(24px,6vw,34px);line-height:1;text-align:right}
 .panel{border-radius:24px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea),var(--sombra);padding:clamp(20px,4vw,32px);display:flex;flex-direction:column;gap:16px}
 .panel h2{font-size:30px}
+.sugs{margin-top:8px;padding:clamp(16px,4vw,24px);border-radius:24px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea)}
+.sugs h2{font-size:26px}
+.sugs .lbl{display:block;margin-top:14px}
+.sug{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1.5px solid var(--linea)}
+.sug:last-child{border-bottom:0}
+.sug .ph{width:64px;height:64px;border-radius:14px}
+.sug a.name{display:block;font-weight:900;font-size:16px;line-height:1.25;text-decoration:none;color:inherit;overflow-wrap:anywhere}
+.sug small{display:block;color:var(--cacao-2);font-weight:800;margin-top:2px}
+.sug .add{margin:0}
 .trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .err{color:var(--coral-f);font-weight:900;min-height:1.5em}
 .notice{border-radius:16px;background:var(--coral-p);padding:12px 16px;font-weight:800;margin-bottom:16px}
@@ -444,6 +453,29 @@ function money(n) {
 function items() { return (state.content && state.content.items) || []; }
 function settings() { return (state.content && state.content.settings) || {}; }
 function byId(id) { return items().find(p => p.id === id); }
+// Lo que se muestra en la tienda: sin los marcados "solo como sugerencia" (salen junto a su kit y en el pedido).
+function shop() { return items().filter(p => !p.onlyExtra); }
+// Complementos: los que la dueña marcó en cada producto y, al revés, los productos que lo marcaron a él
+// (en la ficha del mandil sale la Pizzería). Nunca repite lo que viene en `skip`.
+function extrasOf(ids, skip) {
+  const out = [];
+  const push = p => { if (p && skip.indexOf(p.id) < 0 && out.indexOf(p) < 0) out.push(p); };
+  ids.forEach(id => { const p = byId(id); if (p) (p.extras || []).forEach(x => push(byId(x))); });
+  items().forEach(q => { if ((q.extras || []).some(x => ids.indexOf(x) >= 0)) push(q); });
+  return out;
+}
+// Otros productos para sugerir: primero los del mismo ámbito y los destacados.
+function othersFor(ids, skip, n) {
+  const near = ids.map(byId).filter(Boolean).map(p => scopeOf(p.scope).id);
+  const score = p => (near.indexOf(scopeOf(p.scope).id) >= 0 ? 2 : 0) + (p.featured ? 1 : 0);
+  return shop().filter(p => skip.indexOf(p.id) < 0).sort((a, b) => score(b) - score(a)).slice(0, n);
+}
+function sugHtml(p, tag) {
+  const sc = scopeOf(p.scope), line = lineOf(p.id);
+  return '<div class="sug"><a class="ph" href="#/p/' + encodeURIComponent(p.id) + '" aria-label="' + escapeHtml(p.name) + '">' + photoHtml(p.photo, p.name, sc.c) + '</a>' +
+    '<div><a class="name" href="#/p/' + encodeURIComponent(p.id) + '">' + escapeHtml(p.name) + '</a><small>' + escapeHtml((tag ? tag + ' · ' : '') + priceLabel(p)) + '</small></div>' +
+    '<button class="add' + (line ? ' on' : '') + '" data-act="add" data-id="' + escapeHtml(p.id) + '">' + (line ? '✓ ' + line.qty : '+ Agregar') + '</button></div>';
+}
 function scopeOf(name) { return SCOPES.find(s => s.name === name || s.id === name) || SCOPES[1]; }
 function priceLabel(p) { return p.price ? money(p.price) : (p.priceText || 'Por confirmar'); }
 function safeUrl(u) { return /^(https:|http:\/\/localhost[:/])/.test(u || '') ? u : ''; }
@@ -662,7 +694,7 @@ function noticeHtml() {
 const VIEWS = {
   home() {
     if (!state.content) return statusHtml();
-    const s = settings(), all = items();
+    const s = settings(), all = shop();
     const featured = all.filter(p => p.featured);
     const best = (featured.length ? featured : all).slice(0, 8);
     const scopesWith = SCOPES.filter(sc => all.some(p => scopeOf(p.scope).id === sc.id));
@@ -721,7 +753,7 @@ const VIEWS = {
   tienda(filter) {
     if (!state.content) return statusHtml();
     const sc = SCOPES.find(x => x.id === filter);
-    const list = items().filter(p => !sc || scopeOf(p.scope).id === sc.id);
+    const list = shop().filter(p => !sc ||scopeOf(p.scope).id === sc.id);
     const tabs = [{ id: '', name: 'Todo', c: '' }].concat(SCOPES).map(t =>
       '<a class="tab" href="#/tienda' + (t.id ? '/' + t.id : '') + '"' + ((sc ? sc.id : '') === t.id ? ' aria-current="page"' : '') + '><i style="background:' + (t.c ? 'var(--' + t.c + ')' : 'var(--cacao)') + '"></i>' + t.name + '</a>').join('');
     return '<div class="wrap" style="padding-bottom:40px"><div class="page-head"><h1>Tienda</h1><p class="lead">Todo hecho a mano, pieza por pieza. Arma tu pedido y envíalo por WhatsApp.</p></div>' +
@@ -738,7 +770,8 @@ const VIEWS = {
     const photos = [p.photo].concat(p.photos || []).filter(Boolean);
     const main = photos[state.photo] || photos[0] || '';
     const total = p.price ? money(p.price * state.qty) : priceLabel(p);
-    const related = items().filter(x => x.id !== p.id).sort((a, b) => (scopeOf(b.scope).id === sc.id) - (scopeOf(a.scope).id === sc.id)).slice(0, 4);
+    const extras = extrasOf([p.id], [p.id]).slice(0, 4);
+    const related = othersFor([p.id], [p.id].concat(extras.map(x => x.id)), 4);
     const ship = [s.envio_lima ? 'Lima: ' + s.envio_lima : '', s.envio_provincias ? 'Provincias: ' + s.envio_provincias : ''].filter(Boolean);
     return '<div class="wrap"><div class="crumbs"><a href="#/tienda">Tienda</a><span>/</span><a href="#/tienda/' + sc.id + '">' + sc.name + '</a><span>/</span><span style="color:var(--cacao)">' + escapeHtml(p.name) + '</span></div>' +
       '<div class="prod"><div class="gallery"><div class="ph main">' + photoHtml(main, p.name, sc.c, sc.pose, '', 1.6) + '</div>' +
@@ -756,11 +789,12 @@ const VIEWS = {
         ((p.age || p.warning) ? '<div class="fact strong"><span class="lbl" style="color:inherit">' + escapeHtml(p.age || 'Importante') + '</span><span>' + escapeHtml(p.warning || '') + '</span></div>' : '') +
         ((p.material || ship.length) ? '<div class="fact soft"><span class="lbl" style="color:inherit">Material y envío</span>' + (p.material ? '<span>' + escapeHtml(p.material) + '</span>' : '') + ship.map(x => '<span>' + escapeHtml(x) + '</span>').join('') + '</div>' : '') + '</div>' : '') +
       '</div></div>' +
+      (extras.length ? '<section class="sec" id="combina" style="padding-bottom:0"><h2 class="h2" style="font-size:clamp(30px,3.6vw,44px);margin-bottom:24px">Combínalo con</h2><div class="grid small">' + extras.map(x => cardHtml(x, false)).join('') + '</div></section>' : '') +
       (related.length ? '<section class="sec" style="padding-bottom:40px"><h2 class="h2" style="font-size:clamp(30px,3.6vw,44px);margin-bottom:24px">También en Lindiland</h2><div class="grid">' + related.map(x => cardHtml(x, true)).join('') + '</div></section>' : '') + '</div>';
   },
 
   lindiland() {
-    const s = settings(), all = items();
+    const s = settings(), all = shop();
     return '<section class="ll-hero"><span class="rayas" style="--rp:var(--coral-p);--rw:36px"></span><div class="card-c"><h1>Bienvenidos a Lindiland.</h1><span class="kicker" style="color:var(--cacao-3)">Nuestro mundo</span></div><span class="lindi">' + charHtml('coral', 'saluda', '', 1.1) + '</span></section>' +
       '<section class="letter" id="carta"><div class="paper"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span class="lbl">Carta a los papás · 2 min de lectura</span></div>' +
       '<div class="body' + (state.carta ? ' open' : '') + '">' + MANIFEST.map(m => '<p' + (m[1] ? ' class="hi" style="color:' + m[1] + '"' : '') + '>' + escapeHtml(m[0]) + '</p>').join('') + '</div>' +
@@ -795,9 +829,16 @@ const VIEWS = {
         '<button class="rm" data-act="remove" data-id="' + id + '">Quitar</button></div></div></div>';
     }).join('');
     const s = settings();
+    // Antes de enviar: primero los complementos de lo que eligió y, al final, algún otro kit.
+    const ids = state.list.map(l => l.id);
+    const extras = extrasOf(ids, ids).slice(0, 3);
+    const others = othersFor(ids, ids.concat(extras.map(x => x.id)), extras.length >= 3 ? 1 : 2);
+    const sugs = (extras.length || others.length) ? '<div class="sugs" id="sugs"><h2>¿Le sumas algo?</h2>' +
+      (extras.length ? '<span class="lbl">Combina con lo que elegiste</span>' + extras.map(x => sugHtml(x, '')).join('') : '') +
+      (others.length ? '<span class="lbl">También te puede gustar</span>' + others.map(x => sugHtml(x, scopeOf(x.scope).name)).join('') : '') + '</div>' : '';
     return '<div class="wrap"><div class="crumbs"><a href="#/tienda">← Seguir mirando</a></div><div class="order"><div><h1 class="h2" style="margin-bottom:8px">Tu pedido</h1>' + noticeHtml() + lines +
       '<div class="total"><span class="lbl">Total</span><b id="order-total">' + escapeHtml(t.label) + '</b></div>' +
-      '<p class="hint">Precios en soles.' + (t.pending ? ' Lo que dice «por confirmar» te lo cotizamos en el chat.' : '') + ' El envío se coordina por WhatsApp.</p></div>' +
+      '<p class="hint">Precios en soles.' + (t.pending ? ' Lo que dice «por confirmar» te lo cotizamos en el chat.' : '') + ' El envío se coordina por WhatsApp.</p>' + sugs + '</div>' +
       // Sin formulario de datos (frena la compra): un toque y el resto se conversa en el chat.
       '<div class="panel"><h2>Listo para enviar</h2>' +
       '<p class="hint" style="font-size:16px">Se abre WhatsApp con tu pedido ya escrito. Solo lo envías y te respondemos para confirmar stock, ' + (s.medios_pago ? 'pago por ' + escapeHtml(s.medios_pago) : 'pago') + ' y entrega.</p>' +

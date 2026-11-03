@@ -10,6 +10,8 @@
 - [ ] La dueña: número de WhatsApp, fecha límite de Navidad, días de envío, precio de lazos (en Ajustes / Catálogo).
 - [ ] La dueña: fotos (propias, IA o renders) y marcar `publicado`.
 - [x] Cuenta de GitHub `lindiland`; repositorio `lindiland.github.io` con Pages (2-nov-2026).
+- [x] Panel de edición en la hoja, complementos con sugerencias e id automático (0.3.0, implementación @2).
+- [ ] La dueña: abrir el panel una vez y aceptar el permiso; correr Preparar hoja para que aparezcan las columnas de complementos.
 - [ ] Prueba real desde su celular (fila en Solicitudes + WhatsApp correcto).
 
 ## Después (por decidir con la dueña)

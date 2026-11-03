@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<!-- Panel Lindi: se abre desde la hoja (menú Lindi Tienda → Abrir panel). Edita Catálogo, Ajustes y el estado
+     de Solicitudes llamando a las funciones panel* de Code.gs. Ver docs/editar-contenido.md. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gluten:wght@600;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--crema:#FFF8EC;--tarjeta:#FFFDF8;--cacao:#4A3732;--cacao-2:#5E4E46;--gris:#8A7A70;--linea:#EFE4D3;
+  --coral:#E3714F;--coral-f:#C85A3C;--amarillo:#EDBA3E;--amarillo-p:#F8E6B0;--azul:#6690D2;--verde:#62A05A;--verde-p:#D5E7CC;--coral-p:#F8D3C8;
+  --titulo:'Gluten',cursive;--texto:'Nunito',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--crema);color:var(--cacao);font:500 15px/1.4 var(--texto)}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--titulo);font-weight:800;margin:0;line-height:1.05}
+.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 20px;background:var(--tarjeta);border-bottom:1.5px solid var(--linea);position:sticky;top:0;z-index:5}
+.logo{font-family:var(--titulo);font-weight:800;font-size:28px;letter-spacing:-.01em}
+.logo i{font-style:normal}
+.stats{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.stat{border-radius:999px;padding:6px 12px;font-weight:900;font-size:13px;background:var(--crema);box-shadow:inset 0 0 0 1.5px var(--linea)}
+.stat b{font-size:15px}
+.stat.warn{background:var(--amarillo-p)}
+.tabs{display:flex;gap:6px}
+.tab{border:0;border-radius:999px;padding:9px 16px;font-weight:900;background:transparent;cursor:pointer}
+.tab[aria-current="true"]{background:var(--cacao);color:var(--crema)}
+.btn{border:0;border-radius:999px;padding:10px 18px;font-weight:900;background:var(--amarillo);color:var(--cacao);cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(.96)}
+.btn.ring{background:transparent;box-shadow:inset 0 0 0 2px var(--cacao)}
+.btn.dark{background:var(--cacao);color:var(--crema)}
+.btn.small{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+a{color:var(--coral-f);font-weight:800}
+main{padding:18px 20px 40px}
+.hidden{display:none!important}
+
+/* Productos */
+.prods{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;align-items:start}
+.side{position:sticky;top:76px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 96px)}
+.search{width:100%;border:0;border-radius:12px;padding:10px 12px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea)}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{border:0;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:900;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--cacao);color:var(--crema);box-shadow:none}
+.list{overflow:auto;display:flex;flex-direction:column;gap:6px;padding:2px}
+.item{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;border:0;border-radius:14px;padding:7px;background:var(--tarjeta);box-shadow:inset 0 0 0 1.5px var(--linea);cursor:pointer}
+.item[aria-current="true"]{box-shadow:inset 0 0 0 2.5px var(--cacao)}
+.thumb{width:46px;height:46px;border-radius:10px;background:var(--amarillo-p) center/cover no-repeat;display:grid;place-items:center;font-family:var(--titulo);font-weight:800;color:var(--cacao-2)}
+.item b{display:block;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item small{color:var(--gris);font-weight:800}
+.pill{border-radius:999px;padding:3px 8px;font-size:11px;font-weight:900;letter-spacing:.04em}
+.pill.on{background:var(--verde-p)}
+.pill.off{background:var(--linea);color:var(--cacao-2)}
+.pill.extra{background:var(--coral-p)}
+
+.editor{background:var(--tarjeta);border-radius:22px;box-shadow:inset 0 0 0 1.5px var(--linea);padding:20px 22px;display:flex;flex-direction:column;gap:18px}
+.ed-head{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.ed-head h2{font-size:30px;flex:1;min-width:200px}
+.idtag{font-size:12px;color:var(--gris);font-weight:800}
+.sec{border-top:1.5px solid var(--linea);padding-top:16px}
+.sec>h3{font-size:20px;margin-bottom:4px}
+.sec>p{margin:0 0 12px;color:var(--cacao-2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px}
+label.f{display:flex;flex-direction:column;gap:5px}
+label.f.wide{grid-column:1/-1}
+label.f>span{font-weight:900;font-size:13px}
+label.f>small{color:var(--gris);font-weight:700;font-size:12px}
+.in{width:100%;border:0;border-radius:12px;padding:10px 12px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--linea)}
+.in:focus{outline:2px solid var(--azul);outline-offset:1px}
+textarea.in{min-height:70px;resize:vertical}
+.switches{display:flex;gap:10px;flex-wrap:wrap}
+.sw{display:flex;align-items:center;gap:10px;border-radius:14px;padding:10px 14px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--linea);cursor:pointer;font-weight:900;flex:1;min-width:220px}
+.sw input{width:20px;height:20px;accent-color:var(--verde)}
+.sw small{display:block;font-weight:700;color:var(--gris);font-size:12px}
+.photo{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:start}
+.photo .pv{width:150px;height:150px;border-radius:18px;background:var(--amarillo-p) center/cover no-repeat;display:grid;place-items:center;text-align:center;font-size:12px;font-weight:800;color:var(--cacao-2);padding:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:0;border-radius:999px;padding:7px 13px;font-weight:900;font-size:13px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--linea);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--coral);color:var(--crema);box-shadow:none}
+.chip[aria-pressed="true"]::before{content:'✓ '}
+.save{position:sticky;bottom:0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--tarjeta);padding:12px 0 2px;border-top:1.5px solid var(--linea)}
+.msg{font-weight:900}
+.msg.ok{color:var(--verde)}
+.msg.err{color:var(--coral-f)}
+.empty{padding:40px;text-align:center;color:var(--cacao-2)}
+
+/* Pedidos */
+.orders{display:flex;flex-direction:column;gap:10px;max-width:980px}
+.order{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:16px;align-items:start;background:var(--tarjeta);border-radius:18px;padding:14px 16px;box-shadow:inset 0 0 0 1.5px var(--linea)}
+.order .code{font-family:var(--titulo);font-weight:800;font-size:22px}
+.order pre{margin:0;font:inherit;white-space:pre-wrap;font-weight:700}
+.order .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:260px}
+.st{display:inline-block;margin-top:4px}
+.st.pendiente{background:var(--amarillo-p)}.st.pagado{background:var(--verde-p)}.st.entregado{background:#D3E1F4}.st.vencida,.st.cancelado{background:var(--linea)}
+
+/* Ajustes */
+.sets{display:flex;flex-direction:column;gap:16px;max-width:980px}
+.box{background:var(--tarjeta);border-radius:22px;box-shadow:inset 0 0 0 1.5px var(--linea);padding:18px 20px}
+.box h3{font-size:22px;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo"><i style="color:var(--coral)">l</i><i style="color:var(--amarillo)">i</i><i style="color:var(--azul)">n</i><i style="color:var(--verde)">d</i><i style="color:var(--coral)">i</i></div>
+  <div class="stats" id="stats"></div>
+  <nav class="tabs">
+    <button class="tab" data-tab="productos" aria-current="true">Productos</button>
+    <button class="tab" data-tab="pedidos">Pedidos</button>
+    <button class="tab" data-tab="ajustes">Ajustes</button>
+  </nav>
+  <a id="weblink" target="_blank" rel="noopener">Ver la web ↗</a>
+</div>
+<main>
+  <div id="loading" class="empty">Cargando…</div>
+  <section id="productos" class="hidden">
+    <div class="prods">
+      <div class="side">
+        <button class="btn" data-act="nuevo">+ Nuevo producto</button>
+        <input class="search" id="q" placeholder="Buscar producto…" autocomplete="off">
+        <div class="filters" id="filters"></div>
+        <div class="list" id="list"></div>
+      </div>
+      <div class="editor" id="editor"></div>
+    </div>
+  </section>
+  <section id="pedidos" class="hidden"></section>
+  <section id="ajustes" class="hidden"></section>
+</main>
+<script>
+const S = { data: null, tab: 'productos', sel: null, draft: null, dirty: false, warned: false, filter: 'todos', ofilter: 'pendiente', q: '' };
+const FIELDS = [
+  ['Lo básico', '', [
+    ['nombre', 'Nombre', 'Como sale en la web. Ej.: Kit La Pizzería'],
+    ['precio', 'Precio (S/)', 'Solo el número. Ej.: 139', 'number'],
+    ['precio_texto', 'Precio en texto', 'Si no tiene precio fijo. Ej.: desde S/25 (si hay precio, este se ignora)'],
+    ['ambito', 'Ámbito', 'Sección de la tienda', 'scope'],
+    ['coleccion', 'Colección', 'El local de Lindiland. Ej.: La Pizzería'],
+    ['sello', 'Sello', 'Etiqueta sobre la foto (opcional)', 'badge'],
+    ['orden', 'Orden', '1 sale primero', 'number']
+  ]],
+  ['Lo que se lee en la ficha', '', [
+    ['descripcion', 'Descripción', 'Qué trae, en 1 o 2 frases.', 'area'],
+    ['para_jugar', 'Para jugar a…', 'Se lee «Para jugar a ___.» Ej.: cocinar, servir porciones y tomar pedidos'],
+    ['personalizar', 'Qué elige el cliente', 'Ej.: Los 3 toppings que eliges. Vacío = solo una nota libre.'],
+    ['edad', 'Edad', 'Ej.: Desde 3 años'],
+    ['aviso', 'Aviso de seguridad', 'Ej.: Contiene piezas pequeñas…'],
+    ['material', 'Material y cuidado', 'Ej.: Fieltro de poliéster · Limpiar con paño húmedo']
+  ]]
+];
+const SET_GROUPS = [
+  ['Contacto y pedidos', k => /^(whatsapp|medios_pago|envio_|entrega_|regalo_|instagram|tiktok)/.test(k)],
+  ['Barra de avisos (arriba de la web)', k => /^aviso_/.test(k)],
+  ['Navidad', k => /^navidad_/.test(k)],
+  ['Tarjeta de novedad', k => /^novedad_/.test(k)],
+  ['Bloques, fotos y fondo', () => true]
+];
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
+function money(p) { return Number(p.precio) > 0 ? 'S/' + p.precio : (p.precio_texto || 'Sin precio'); }
+function byId(id) { return S.data.products.find(p => p.id === id); }
+function call(fn, args, ok, btn) {
+  if (btn) btn.disabled = true;
+  google.script.run.withSuccessHandler(r => { if (btn) btn.disabled = false; ok(r); })
+    .withFailureHandler(e => { if (btn) btn.disabled = false; say((e && e.message) || 'No se pudo guardar. Intenta otra vez.', 'err'); })[fn].apply(null, args || []);
+}
+function say(t, kind) { const m = document.getElementById('msg'); if (m) { m.textContent = t; m.className = 'msg ' + (kind || ''); } }
+
+function load() {
+  call('panelDatos', [], d => { S.data = d; document.getElementById('loading').classList.add('hidden'); if (!S.sel && d.products[0]) select(d.products[0].id, true); paint(); });
+}
+
+function paint() {
+  const d = S.data;
+  const pub = d.products.filter(p => p.publicado).length;
+  const pend = d.orders.filter(o => o.estado === 'pendiente').length;
+  const wa = (d.settings.find(s => s.clave === 'whatsapp') || {}).valor;
+  document.getElementById('stats').innerHTML =
+    '<span class="stat"><b>' + pub + '</b> en la web</span><span class="stat"><b>' + (d.products.length - pub) + '</b> borradores</span>' +
+    '<span class="stat' + (pend ? ' warn' : '') + '"><b>' + pend + '</b> pedidos por cobrar</span>' +
+    (wa ? '' : '<span class="stat warn">Falta tu WhatsApp (Ajustes)</span>');
+  document.getElementById('weblink').href = d.web;
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-current', String(t.dataset.tab === S.tab)));
+  ['productos', 'pedidos', 'ajustes'].forEach(t => document.getElementById(t).classList.toggle('hidden', t !== S.tab));
+  if (S.tab === 'productos') { paintList(); paintEditor(); }
+  if (S.tab === 'pedidos') paintOrders();
+  if (S.tab === 'ajustes') paintSettings();
+}
+
+// ---------- Productos ----------
+function paintList() {
+  const f = [['todos', 'Todos'], ['web', 'En la web'], ['borrador', 'Borradores'], ['extra', 'Complementos']];
+  document.getElementById('filters').innerHTML = f.map(x => '<button data-act="filter" data-f="' + x[0] + '" aria-pressed="' + (S.filter === x[0]) + '">' + x[1] + '</button>').join('');
+  const q = S.q.toLowerCase();
+  const list = S.data.products.filter(p =>
+    (S.filter === 'todos' || (S.filter === 'web' && p.publicado) || (S.filter === 'borrador' && !p.publicado) || (S.filter === 'extra' && p.solo_sugerencia)) &&
+    (!q || (p.nombre + ' ' + p.coleccion).toLowerCase().indexOf(q) >= 0));
+  document.getElementById('list').innerHTML = list.length ? list.map(p =>
+    '<button class="item" data-act="pick" data-id="' + esc(p.id) + '" aria-current="' + (S.sel === p.id) + '">' +
+    '<span class="thumb" style="' + (p.vista ? 'background-image:url(' + esc(p.vista) + ')' : '') + '">' + (p.vista ? '' : esc(p.nombre.charAt(0))) + '</span>' +
+    '<span><b>' + esc(p.nombre) + '</b><small>' + esc(money(p)) + (p.ambito ? ' · ' + esc(p.ambito) : '') + '</small></span>' +
+    '<span class="pill ' + (p.publicado ? 'on">EN LA WEB' : 'off">BORRADOR') + '</span></button>').join('') : '<p class="empty">Nada por aquí.</p>';
+}
+
+function select(id, quiet) {
+  const p = id ? byId(id) : null;
+  S.sel = p ? p.id : null;
+  S.draft = p ? JSON.parse(JSON.stringify(p)) : { id: '', nombre: '', ambito: 'Juego', publicado: false, destacado: false, solo_sugerencia: false, complementos: [] };
+  S.dirty = false; S.warned = false;
+  if (!quiet) paint();
+}
+
+function field(f) {
+  const [k, label, help, type] = f, v = S.draft[k] == null ? '' : S.draft[k];
+  let input;
+  if (type === 'area') input = '<textarea class="in" data-k="' + k + '">' + esc(v) + '</textarea>';
+  else if (type === 'scope' || type === 'badge') {
+    const opts = (type === 'scope' ? S.data.scopes : [''].concat(S.data.badges));
+    input = '<select class="in" data-k="' + k + '">' + opts.map(o => '<option value="' + esc(o) + '"' + (String(o).toLowerCase() === String(v).toLowerCase() ? ' selected' : '') + '>' + esc(o || '— sin sello —') + '</option>').join('') + '</select>';
+  } else input = '<input class="in" data-k="' + k + '" value="' + esc(v) + '"' + (type === 'number' ? ' inputmode="decimal"' : '') + '>';
+  return '<label class="f' + (type === 'area' ? ' wide' : '') + '"><span>' + label + '</span>' + input + '<small>' + esc(help) + '</small></label>';
+}
+
+function paintEditor() {
+  const el = document.getElementById('editor'), p = S.draft;
+  if (!p) { el.innerHTML = '<p class="empty">Elige un producto de la lista o crea uno nuevo.</p>'; return; }
+  const others = S.data.products.filter(x => x.id && x.id !== p.id);
+  const sw = (k, t, h) => '<label class="sw"><input type="checkbox" data-k="' + k + '"' + (p[k] ? ' checked' : '') + '><span>' + t + '<small>' + h + '</small></span></label>';
+  el.innerHTML =
+    '<div class="ed-head"><h2>' + esc(p.nombre || 'Producto nuevo') + '</h2>' +
+    (p.id ? '<a target="_blank" rel="noopener" href="' + esc(S.data.web + '/#/p/' + encodeURIComponent(p.id)) + '">Ver en la web ↗</a><button class="btn ring small" data-act="duplicar">Duplicar</button>' : '') +
+    '<div class="idtag" style="width:100%">' + (p.id ? 'id: ' + esc(p.id) + ' (se usa en los enlaces; no cambia)' : 'El id se crea solo con el nombre al guardar.') + '</div></div>' +
+    '<div class="switches">' + sw('publicado', 'Se ve en la web', 'Desmárcalo para esconderlo sin borrarlo.') +
+    sw('destacado', 'Destacado', 'Sale en «Lo más pedido» del inicio.') + '</div>' +
+    FIELDS.map(g => '<div class="sec"><h3>' + g[0] + '</h3><div class="grid">' + g[2].map(field).join('') + '</div></div>').join('') +
+    '<div class="sec"><h3>Fotos</h3><p>En Drive: clic derecho en la foto → Compartir → «Cualquier persona con el enlace» → Copiar enlace, y pégalo aquí.</p>' +
+    '<div class="photo"><div class="pv" id="pv" style="' + (p.vista ? 'background-image:url(' + esc(p.vista) + ')' : '') + '">' + (p.vista ? '' : 'Sin foto: la web pone rayitas de color') + '</div><div class="grid">' +
+    '<label class="f wide"><span>Foto principal</span><input class="in" data-k="foto" value="' + esc(p.foto || '') + '" placeholder="https://drive.google.com/file/d/…"></label>' +
+    '<label class="f wide"><span>Más fotos</span><textarea class="in" data-k="fotos_extra" placeholder="Un enlace por línea (hasta 6)">' + esc(p.fotos_extra || '') + '</textarea></label></div></div></div>' +
+    '<div class="sec"><h3>Complementos y sugerencias</h3><p>Marca lo que va bien con este producto. Sale en su ficha («Combínalo con») y en el pedido («¿Le sumas algo?»). También al revés: en la ficha del complemento sale este producto. Al final del pedido la web sugiere además otro kit del mismo ámbito.</p>' +
+    (others.length ? '<div class="chips">' + others.map(x => '<button class="chip" data-act="extra" data-id="' + esc(x.id) + '" aria-pressed="' + (p.complementos.indexOf(x.id) >= 0) + '">' + esc(x.nombre) + (x.publicado ? '' : ' (borrador)') + '</button>').join('') + '</div>' : '<p>Cuando tengas más productos, aparecen aquí.</p>') +
+    '<div class="switches" style="margin-top:12px">' + sw('solo_sugerencia', 'Solo como sugerencia', 'Para extras (ingredientes, mandil…): no sale en la tienda, solo junto a su kit y en el pedido.') + '</div></div>' +
+    '<div class="save"><button class="btn dark" data-act="guardar">' + (p.id ? 'Guardar cambios' : 'Crear producto') + '</button>' +
+    (S.dirty ? '<button class="btn ring" data-act="descartar">Descartar</button>' : '') + '<span class="msg" id="msg">' + (S.dirty ? 'Tienes cambios sin guardar' : '') + '</span></div>';
+}
+
+// ---------- Pedidos ----------
+function paintOrders() {
+  const f = [['pendiente', 'Por cobrar'], ['pagado', 'Pagados'], ['todos', 'Todos']];
+  const list = S.data.orders.filter(o => S.ofilter === 'todos' || o.estado === S.ofilter);
+  const next = { pendiente: [['pagado', 'Ya pagó'], ['cancelado', 'Cancelar']], pagado: [['entregado', 'Entregado']], vencida: [['pagado', 'Ya pagó']] };
+  document.getElementById('pedidos').innerHTML =
+    '<div class="filters" style="margin-bottom:12px">' + f.map(x => '<button data-act="ofilter" data-f="' + x[0] + '" aria-pressed="' + (S.ofilter === x[0]) + '">' + x[1] + '</button>').join('') + '</div>' +
+    '<p style="margin:0 0 12px;color:var(--cacao-2)">Busca en WhatsApp el código «Ref.» del mensaje. Cuando te pague, márcalo aquí; recién entonces pásalo a LINDI OS. Lo que sigue por cobrar después de 7 días pasa solo a «vencida».</p>' +
+    '<span class="msg" id="msg"></span><div class="orders">' + (list.length ? list.map(o =>
+      '<div class="order"><div><div class="code">' + esc(o.codigo) + '</div><small>' + esc(o.fecha) + '</small><br><span class="pill st ' + esc(o.estado) + '">' + esc(o.estado.toUpperCase()) + '</span></div>' +
+      '<div><pre>' + esc(o.productos) + '</pre><div style="margin-top:6px;font-weight:900">Total: ' + (isNaN(Number(o.total)) ? esc(o.total) : 'S/' + esc(o.total)) + '</div>' +
+      (o.nota || o.nombre || o.distrito ? '<small>' + esc([o.nombre, o.distrito, o.nota].filter(Boolean).join(' · ')) + '</small>' : '') + '</div>' +
+      '<div class="acts">' + (next[o.estado] || []).map(n => '<button class="btn small' + (n[0] === 'cancelado' ? ' ring' : '') + '" data-act="estado" data-code="' + esc(o.codigo) + '" data-st="' + n[0] + '">' + n[1] + '</button>').join('') + '</div></div>').join('')
+      : '<p class="empty">No hay pedidos aquí.</p>') + '</div>';
+}
+
+// ---------- Ajustes ----------
+function paintSettings() {
+  const used = {};
+  const boxes = SET_GROUPS.map(g => {
+    const rows = S.data.settings.filter(s => !used[s.clave] && g[1](s.clave));
+    rows.forEach(s => { used[s.clave] = true; });
+    return rows.length ? '<div class="box"><h3>' + g[0] + '</h3><div class="grid">' + rows.map(s => {
+      const label = s.clave.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase());
+      const long = /texto|fotos_redes/.test(s.clave);
+      const input = s.clave === 'navidad_fecha_limite' ? '<input class="in" type="date" data-s="' + s.clave + '" value="' + esc(s.valor) + '">'
+        : s.clave === 'fondo' ? '<select class="in" data-s="fondo">' + ['crema', 'blanco', 'mixto'].map(o => '<option' + (o === s.valor ? ' selected' : '') + '>' + o + '</option>').join('') + '</select>'
+        : long ? '<textarea class="in" data-s="' + s.clave + '">' + esc(s.valor) + '</textarea>'
+        : '<input class="in" data-s="' + s.clave + '" value="' + esc(s.valor) + '">';
+      return '<label class="f' + (long ? ' wide' : '') + '"><span>' + esc(label) + '</span>' + input + '<small>' + esc(s.ayuda) + '</small></label>';
+    }).join('') + '</div></div>' : '';
+  }).join('');
+  document.getElementById('ajustes').innerHTML = '<div class="sets">' + boxes +
+    '<div class="save"><button class="btn dark" data-act="guardarAjustes">Guardar ajustes</button><span class="msg" id="msg"></span></div></div>';
+}
+
+// ---------- Eventos ----------
+const ACTS = {
+  tab(el) { S.tab = el.dataset.tab; paint(); },
+  filter(el) { S.filter = el.dataset.f; paintList(); },
+  ofilter(el) { S.ofilter = el.dataset.f; paintOrders(); },
+  pick(el) { if (guardDirty()) select(el.dataset.id); },
+  nuevo() { if (guardDirty()) select(null); },
+  duplicar() { const c = JSON.parse(JSON.stringify(S.draft)); c.id = ''; c.nombre += ' (copia)'; c.publicado = false; S.sel = null; S.draft = c; S.dirty = true; paint(); },
+  descartar() { select(S.sel); },
+  extra(el) {
+    const l = S.draft.complementos, i = l.indexOf(el.dataset.id);
+    if (i >= 0) l.splice(i, 1); else l.push(el.dataset.id);
+    el.setAttribute('aria-pressed', String(i < 0)); markDirty();
+  },
+  guardar(el) {
+    if (!String(S.draft.nombre || '').trim()) { say('Escribe el nombre del producto.', 'err'); return; }
+    say('Guardando…');
+    call('panelGuardarProducto', [S.draft], r => { S.data = r.datos; select(r.id, true); paint(); say('Guardado. Ya se ve en la web (recárgala).', 'ok'); }, el);
+  },
+  guardarAjustes(el) {
+    const map = {};
+    document.querySelectorAll('[data-s]').forEach(i => { map[i.dataset.s] = i.value; });
+    say('Guardando…');
+    call('panelGuardarAjustes', [map], d => { S.data = d; paint(); say('Ajustes guardados.', 'ok'); }, el);
+  },
+  estado(el) { call('panelEstadoSolicitud', [el.dataset.code, el.dataset.st], d => { S.data = d; paint(); }, el); }
+};
+// Si hay cambios sin guardar, el primer clic avisa; el segundo sale sin guardar.
+function guardDirty() {
+  if (!S.dirty || S.warned) return true;
+  S.warned = true; say('Tienes cambios sin guardar. Guarda, o vuelve a hacer clic para salir sin guardar.', 'err');
+  return false;
+}
+function markDirty() {
+  if (!S.dirty) { S.dirty = true; const m = document.getElementById('msg'); if (m) { m.textContent = 'Tienes cambios sin guardar'; m.className = 'msg'; } }
+  S.warned = false;
+}
+document.addEventListener('click', ev => {
+  const el = ev.target.closest('[data-act],[data-tab]');
+  if (!el) return;
+  if (el.dataset.tab) { if (S.tab !== 'productos' || guardDirty()) ACTS.tab(el); return; }
+  if (ACTS[el.dataset.act]) ACTS[el.dataset.act](el);
+});
+document.addEventListener('input', ev => {
+  const el = ev.target;
+  if (el.id === 'q') { S.q = el.value; paintList(); return; }
+  if (!el.dataset.k || !S.draft) return;
+  S.draft[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value;
+  if (el.dataset.k === 'nombre') document.querySelector('.ed-head h2').textContent = el.value || 'Producto nuevo';
+  if (el.dataset.k === 'foto') { const pv = document.getElementById('pv'); const u = drivePreview(el.value); pv.style.backgroundImage = u ? 'url(' + u + ')' : ''; pv.textContent = u ? '' : 'Sin foto: la web pone rayitas de color'; }
+  markDirty();
+});
+document.addEventListener('change', ev => { if (ev.target.type === 'checkbox' && ev.target.dataset.k) { S.draft[ev.target.dataset.k] = ev.target.checked; markDirty(); } });
+// Misma conversión que photoUrl_ de Code.gs, para ver la foto antes de guardar.
+function drivePreview(v) {
+  const s = String(v || '').trim();
+  const m = s.match(/\/d\/([\w-]{20,})/) || s.match(/[?&]id=([\w-]{20,})/) || s.match(/^([\w-]{20,})$/);
+  return m ? 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w400' : (/^https:\/\//.test(s) ? s : '');
+}
+load();
+</script>
+</body>
+</html>

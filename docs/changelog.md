@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 · 2-nov-2026
+- Panel en la hoja (menú Lindi Tienda → Abrir panel, `gas/Panel.html`): productos con vista previa de foto, nuevo y duplicar; pedidos por cobrar con botones de estado; ajustes agrupados. Sin permisos nuevos (`script.container.ui` ya cubría los diálogos).
+- Complementos: columnas `complementos` y `solo_sugerencia` al final de Catálogo (Preparar hoja o el panel las agregan). La web sugiere en la ficha («Combínalo con», en ambos sentidos) y en el pedido («¿Le sumas algo?», complementos y otro kit).
+- id automático a partir del nombre (al escribir en la hoja o al crear en el panel).
+- Vista previa local del panel en `/panel` (test/tools/serve.js).
+
 ## 0.2.0 · 2-nov-2026 (sin publicar)
 - Nuevo diseño a partir del handoff de Claude Design: barra de avisos, carrusel, bloques por ámbito, lo más pedido con sellos y stickers de precio, Navidad con cuenta regresiva, ¿Qué buscas hoy?, historia, regalo, cómo pedir, redes, página Lindiland con la carta a los papás, personaje Lindi en HTML/CSS, burbuja de pedido, menú para celular.
 - Contenido editable en la hoja: pestañas Portada y Ajustes nuevas; Catálogo con precio por confirmar, para jugar, sello, destacado y fotos extra. El número de WhatsApp pasa a Ajustes.
