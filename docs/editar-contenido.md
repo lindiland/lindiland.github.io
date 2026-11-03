@@ -6,9 +6,12 @@ Todo se edita en la hoja **"Lindi Tienda"** de tu Drive (informes.lindi@gmail.co
 En la computadora, abre la hoja → menú **Lindi Tienda → Abrir panel**. La primera vez Google pide permiso de nuevo: debe decir que solo usa **esta hoja**.
 - **Arriba**: cuántos productos hay en la web, cuántos borradores y cuántos pedidos faltan cobrar.
 - **Productos**: a la izquierda la lista; haz clic en uno y edítalo en casillas grandes. **+ Nuevo producto** crea uno (el id se pone solo con el nombre). **Duplicar** copia uno parecido para no escribir todo de nuevo. Pega el enlace de la foto y ves la vista previa. Siempre termina con **Guardar cambios**.
+- **Portada**: el carrusel de colores de arriba. Eliges una diapositiva y ves cómo queda mientras escribes (color, textos, botones, sticker y foto). Los botones llevan a un producto, un ámbito o una sección que eliges de una lista.
 - **Pedidos**: los que llegaron por la web. Cuando te pagan, **Ya pagó**; cuando lo entregas, **Entregado**.
 - **Ajustes**: WhatsApp, envíos, avisos, Navidad (con calendario) y fotos de los bloques.
 El panel escribe en las mismas pestañas de abajo; puedes usar uno u otro. En el celular la app de Hojas no abre el panel: ahí se edita la tabla directamente.
+
+**Preparar hoja** no es para después de editar: se usa una vez cuando una versión nueva trae columnas o ajustes nuevos (te avisamos). Puedes correrla de nuevo sin miedo: no borra ni cambia lo que escribiste.
 
 ## Complementos y sugerencias
 Cada producto puede tener complementos (mandil + gorro de chef, toppings extra, manteles con comandas y menú…).

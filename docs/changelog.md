@@ -1,7 +1,8 @@
 # Changelog
 
 ## 0.3.0 · 2-nov-2026
-- Panel en la hoja (menú Lindi Tienda → Abrir panel, `gas/Panel.html`): productos con vista previa de foto, nuevo y duplicar; pedidos por cobrar con botones de estado; ajustes agrupados. Sin permisos nuevos (`script.container.ui` ya cubría los diálogos).
+- Panel en la hoja (menú Lindi Tienda → Abrir panel, `gas/Panel.html`): productos con vista previa de foto, nuevo y duplicar; portada con vista previa en vivo y destinos de lista; pedidos por cobrar con botones de estado; ajustes agrupados.
+- Cómo pedir, paso 2: ya no dice "Solo agregas tu distrito" (la dueña lo pregunta en el chat). Sin permisos nuevos (`script.container.ui` ya cubría los diálogos).
 - Complementos: columnas `complementos` y `solo_sugerencia` al final de Catálogo (Preparar hoja o el panel las agregan). La web sugiere en la ficha («Combínalo con», en ambos sentidos) y en el pedido («¿Le sumas algo?», complementos y otro kit).
 - id automático a partir del nombre (al escribir en la hoja o al crear en el panel).
 - Vista previa local del panel en `/panel` (test/tools/serve.js).

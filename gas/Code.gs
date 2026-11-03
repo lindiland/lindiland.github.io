@@ -451,7 +451,35 @@ function panelDatos() {
     orden: r.fecha && typeof r.fecha.getTime === 'function' ? r.fecha.getTime() : 0,
     estado: plain_(r.estado), productos: text_(r.productos), total: text_(r.total), nota: text_(r.nota), nombre: text_(r.nombre), distrito: text_(r.distrito)
   })).sort((a, b) => b.orden - a.orden).slice(0, 60);
-  return { products, settings, orders, scopes: SCOPES, badges: BADGES, states: ORDER_STATES, web: WEB_URL };
+  // fila = número de fila en Portada (no tiene id); se usa para guardar sobre la misma diapositiva.
+  const slides = readRows_(SLIDES_SHEET).map((r, i) => {
+    const s = { fila: i + 2 };
+    SLIDES_HEAD.forEach(h => { s[h] = h === 'publicado' ? isYes_(r[h]) : text_(r[h]); });
+    s.color = COLORS.indexOf(plain_(r.color)) >= 0 ? plain_(r.color) : 'amarillo';
+    s.vista = photoUrl_(r.foto);
+    return s;
+  }).filter(s => s.titulo || s.etiqueta || s.texto);
+  return { products, settings, orders, slides, scopes: SCOPES, badges: BADGES, states: ORDER_STATES, colors: COLORS, accessories: ACCESSORIES, web: WEB_URL };
+}
+
+// Guarda una diapositiva del panel en su fila de Portada (sin fila = nueva, al final).
+function panelGuardarDiapositiva(s) {
+  if (!text_(s && s.titulo)) throw new Error('Escribe el título de la diapositiva.');
+  const ss = SpreadsheetApp.getActive();
+  const sh = ss.getSheetByName(SLIDES_SHEET) || setupSlides_(ss);
+  const rows = sh.getRange(1, 1, sh.getLastRow(), sh.getLastColumn()).getValues();
+  const head = rows[0].map(h => plain_(h).replace(/\s+/g, '_'));
+  let at = Number(s.fila);
+  if (!(at >= 2 && at <= rows.length)) at = rows.length + 1;
+  const vals = { publicado: !!s.publicado, orden: Number(s.orden) || '' };
+  ['etiqueta', 'titulo', 'texto', 'boton', 'destino', 'boton2', 'destino2', 'foto', 'sticker', 'sticker_texto'].forEach(h => { vals[h] = text_(s[h]); });
+  vals.color = COLORS.indexOf(plain_(s.color)) >= 0 ? plain_(s.color) : 'amarillo';
+  vals.accesorio = ACCESSORIES.indexOf(plain_(s.accesorio)) >= 0 ? plain_(s.accesorio) : 'ninguno';
+  const row = at <= rows.length ? rows[at - 1].slice() : head.map(() => '');
+  head.forEach((h, i) => { if (h in vals) row[i] = vals[h]; });
+  sh.getRange(at, 1, 1, head.length).setValues([row]);
+  refrescarCatalogo();
+  return { fila: at, datos: panelDatos() };
 }
 
 // Guarda un producto del panel. Sin id = producto nuevo (id sacado del nombre). Solo escribe esa fila

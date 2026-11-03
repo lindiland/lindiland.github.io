@@ -257,6 +257,20 @@ expect('no toca otras columnas', sol.data[1][3], 'A');
   expect('panel: fecha como fecha', typeof aj.find(x => x[0] === 'navidad_fecha_limite')[1].getTime, 'function');
   expect('panel: claves desconocidas no se escriben', aj.some(x => x[0] === 'clave_rara'), false);
 
+  // Portada desde el panel: edita su misma fila, crea al final, valida color y accesorio.
+  const sl = g.sheet('Portada');
+  d = g.run('panelDatos');
+  expect('panel: diapositivas con su fila', d.slides.map(s => s.fila), [2, 3, 4]);
+  const first = Object.assign({}, d.slides[0], { titulo: 'Hoy abre la Pastelería.', color: 'Morado', accesorio: 'corona', publicado: false });
+  r = g.run('panelGuardarDiapositiva', first);
+  expect('panel: diapositiva editada en su fila', [r.fila, sl.data.length - 1, sl.data[1][col(sl, 'titulo')]], [2, 3, 'Hoy abre la Pastelería.']);
+  expect('panel: color y accesorio de lista', [sl.data[1][col(sl, 'color')], sl.data[1][col(sl, 'accesorio')], sl.data[1][col(sl, 'publicado')]], ['amarillo', 'ninguno', false]);
+  r = g.run('panelGuardarDiapositiva', { titulo: 'Nueva', color: 'verde', publicado: true, orden: '4', boton: 'Ver', destino: 'tienda' });
+  expect('panel: diapositiva nueva al final', [r.fila, sl.data.length - 1], [5, 4]);
+  expect('panel: la web ve la portada', g.get().slides.map(s => s.title), ['Para ti es un juego. Para ellos, es un mundo entero.', '¿Qué se le ofrece?', 'Nueva']);
+  threw = false; try { g.run('panelGuardarDiapositiva', { titulo: '' }); } catch (e) { threw = true; }
+  expect('panel: diapositiva sin título no', threw, true);
+
   const code = g.post({ items: [{ id: 'kit-pizzeria', qty: 1 }] }).code;
   const find = x => x.orders.find(o => o.codigo === code);
   d = g.run('panelDatos');

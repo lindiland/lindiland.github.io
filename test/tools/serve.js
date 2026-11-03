@@ -30,7 +30,7 @@ function demoSheet() {
   return gas;
 }
 // Panel.html fuera de Google: google.script.run se reemplaza por llamadas a /demo-panel/<función>.
-const PANEL_FNS = ['panelDatos', 'panelGuardarProducto', 'panelGuardarAjustes', 'panelEstadoSolicitud'];
+const PANEL_FNS = ['panelDatos', 'panelGuardarProducto', 'panelGuardarDiapositiva','panelGuardarAjustes', 'panelEstadoSolicitud'];
 const RUN_SHIM = '<script>window.google={script:{run:(function mk(ok,fail){return new Proxy({},{get:(t,k)=>k==="withSuccessHandler"?f=>mk(f,fail):k==="withFailureHandler"?f=>mk(ok,f):(...a)=>fetch("/demo-panel/"+k,{method:"POST",body:JSON.stringify(a)}).then(r=>r.json()).then(j=>j.error?fail&&fail({message:j.error}):ok&&ok(j.result))})})()}};</script>';
 // Code.gs solo acepta fotos https; en la demo se pone a mano la foto local de la pizza corazón.
 function withDemoPhotos(c) {

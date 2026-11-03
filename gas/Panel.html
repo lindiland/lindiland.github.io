@@ -84,6 +84,17 @@ textarea.in{min-height:70px;resize:vertical}
 .msg.err{color:var(--coral-f)}
 .empty{padding:40px;text-align:center;color:var(--cacao-2)}
 
+/* Portada */
+.swatch{width:46px;height:46px;border-radius:10px}
+.hero-pv{position:relative;border-radius:22px;padding:22px 24px;display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:18px;align-items:center;min-height:200px}
+.hero-pv .k{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.hero-pv h2{font-size:30px;margin:6px 0}
+.hero-pv p{margin:0 0 12px;font-weight:700}
+.hero-pv .b{display:inline-block;border-radius:999px;padding:8px 14px;font-weight:900;font-size:13px;margin:0 6px 6px 0}
+.hero-pv .pic{position:relative;height:170px;border-radius:18px;background:rgba(255,255,255,.35) center/cover no-repeat}
+.hero-pv .stk{position:absolute;right:-8px;top:-10px;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;text-align:center;font-family:var(--titulo);font-weight:800;font-size:16px;line-height:1;transform:rotate(8deg);padding:4px}
+.hero-pv .stk small{display:block;font-family:var(--texto);font-size:8px;font-weight:900}
+
 /* Pedidos */
 .orders{display:flex;flex-direction:column;gap:10px;max-width:980px}
 .order{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:16px;align-items:start;background:var(--tarjeta);border-radius:18px;padding:14px 16px;box-shadow:inset 0 0 0 1.5px var(--linea)}
@@ -105,6 +116,7 @@ textarea.in{min-height:70px;resize:vertical}
   <div class="stats" id="stats"></div>
   <nav class="tabs">
     <button class="tab" data-tab="productos" aria-current="true">Productos</button>
+    <button class="tab" data-tab="portada">Portada</button>
     <button class="tab" data-tab="pedidos">Pedidos</button>
     <button class="tab" data-tab="ajustes">Ajustes</button>
   </nav>
@@ -123,11 +135,28 @@ textarea.in{min-height:70px;resize:vertical}
       <div class="editor" id="editor"></div>
     </div>
   </section>
+  <section id="portada" class="hidden">
+    <div class="prods">
+      <div class="side">
+        <button class="btn" data-act="nuevaDiapo">+ Nueva diapositiva</button>
+        <p style="margin:0;color:var(--cacao-2);font-size:13px">El carrusel de colores de arriba de la web. Salen hasta 6 marcadas «Se ve en la web», en el orden que pongas.</p>
+        <div class="list" id="slist"></div>
+      </div>
+      <div class="editor" id="seditor"></div>
+    </div>
+  </section>
   <section id="pedidos" class="hidden"></section>
   <section id="ajustes" class="hidden"></section>
 </main>
 <script>
-const S = { data: null, tab: 'productos', sel: null, draft: null, dirty: false, warned: false, filter: 'todos', ofilter: 'pendiente', q: '' };
+const S = { data: null, tab: 'productos', sel: null, draft: null, sl: null, sdraft: null, dirty: false, warned: false, filter: 'todos', ofilter: 'pendiente', q: '' };
+// Colores de la portada como en la web (site/index.html, SLIDE_LOOK).
+const LOOK = {
+  amarillo: { bg: 'var(--amarillo)', fg: 'var(--cacao)', b1: 'background:var(--cacao);color:var(--crema)', st: 'background:var(--crema);color:var(--cacao)' },
+  azul: { bg: 'var(--azul)', fg: 'var(--crema)', b1: 'background:var(--crema);color:var(--cacao)', st: 'background:var(--amarillo);color:var(--cacao)' },
+  coral: { bg: 'var(--coral)', fg: 'var(--crema)', b1: 'background:var(--crema);color:var(--cacao)', st: 'background:var(--amarillo);color:var(--cacao)' },
+  verde: { bg: 'var(--verde)', fg: 'var(--crema)', b1: 'background:var(--crema);color:var(--cacao)', st: 'background:var(--amarillo);color:var(--cacao)' }
+};
 const FIELDS = [
   ['Lo básico', '', [
     ['nombre', 'Nombre', 'Como sale en la web. Ej.: Kit La Pizzería'],
@@ -166,7 +195,12 @@ function call(fn, args, ok, btn) {
 function say(t, kind) { const m = document.getElementById('msg'); if (m) { m.textContent = t; m.className = 'msg ' + (kind || ''); } }
 
 function load() {
-  call('panelDatos', [], d => { S.data = d; document.getElementById('loading').classList.add('hidden'); if (!S.sel && d.products[0]) select(d.products[0].id, true); paint(); });
+  call('panelDatos', [], d => {
+    S.data = d; document.getElementById('loading').classList.add('hidden');
+    if (!S.sel && d.products[0]) select(d.products[0].id, true);
+    if (!S.sl && d.slides[0]) selectSlide(d.slides[0].fila, true);
+    paint();
+  });
 }
 
 function paint() {
@@ -180,8 +214,9 @@ function paint() {
     (wa ? '' : '<span class="stat warn">Falta tu WhatsApp (Ajustes)</span>');
   document.getElementById('weblink').href = d.web;
   document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-current', String(t.dataset.tab === S.tab)));
-  ['productos', 'pedidos', 'ajustes'].forEach(t => document.getElementById(t).classList.toggle('hidden', t !== S.tab));
+  ['productos', 'portada', 'pedidos', 'ajustes'].forEach(t => document.getElementById(t).classList.toggle('hidden', t !== S.tab));
   if (S.tab === 'productos') { paintList(); paintEditor(); }
+  if (S.tab === 'portada') { paintSlides(); paintSlideEditor(); }
   if (S.tab === 'pedidos') paintOrders();
   if (S.tab === 'ajustes') paintSettings();
 }
@@ -243,6 +278,77 @@ function paintEditor() {
     (S.dirty ? '<button class="btn ring" data-act="descartar">Descartar</button>' : '') + '<span class="msg" id="msg">' + (S.dirty ? 'Tienes cambios sin guardar' : '') + '</span></div>';
 }
 
+// ---------- Portada ----------
+function slideById(fila) { return S.data.slides.find(s => s.fila === fila); }
+function selectSlide(fila, quiet) {
+  const s = fila ? slideById(fila) : null;
+  S.sl = s ? s.fila : null;
+  S.sdraft = s ? JSON.parse(JSON.stringify(s)) : { fila: 0, publicado: false, color: 'amarillo', accesorio: 'ninguno', orden: String(S.data.slides.length + 1) };
+  S.dirty = false; S.warned = false;
+  if (!quiet) paint();
+}
+function paintSlides() {
+  const pubs = S.data.slides.filter(s => s.publicado).length;
+  document.getElementById('slist').innerHTML = (S.data.slides.length ? S.data.slides.slice().sort((a, b) => (Number(a.orden) || 99) - (Number(b.orden) || 99)).map(s =>
+    '<button class="item" data-act="pickSlide" data-fila="' + s.fila + '" aria-current="' + (S.sl === s.fila) + '">' +
+    '<span class="swatch" style="background:' + LOOK[s.color].bg + '"></span>' +
+    '<span><b>' + esc(s.titulo || '(sin título)') + '</b><small>' + esc(s.etiqueta || 'Diapositiva ' + (s.orden || '')) + '</small></span>' +
+    '<span class="pill ' + (s.publicado ? 'on">EN LA WEB' : 'off">ESCONDIDA') + '</span></button>').join('') : '<p class="empty">Aún no hay diapositivas.</p>') +
+    (pubs > 6 ? '<p class="msg err">Hay ' + pubs + ' marcadas; la web solo muestra las 6 primeras.</p>' : '');
+}
+// Destinos de los botones: secciones de la web y cada producto.
+function destOptions(v) {
+  const base = [['', '— sin botón —'], ['tienda', 'Toda la tienda'], ['como-pedir', 'Cómo pedir'], ['lindiland', 'Página Lindiland'], ['whatsapp', 'Abrir WhatsApp']]
+    .concat(S.data.scopes.map(x => [x.toLowerCase(), 'Ámbito: ' + x]))
+    .concat(S.data.products.filter(p => p.id).map(p => [p.id, 'Producto: ' + p.nombre + (p.publicado ? '' : ' (borrador)')]));
+  if (v && !base.some(o => o[0] === v)) base.push([v, v]);
+  return base.map(o => '<option value="' + esc(o[0]) + '"' + (o[0] === (v || '') ? ' selected' : '') + '>' + esc(o[1]) + '</option>').join('');
+}
+// {tokens} como en la web (fill de site/index.html), para que la vista previa muestre el precio o los días reales.
+const MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+function fillPv(t) {
+  return String(t || '').replace(/\{([\w:-]+)\}/g, (m, k) => {
+    if (k.indexOf('precio:') === 0) { const p = byId(k.slice(7)); return p ? money(p) : '—'; }
+    if (k === 'dias_navidad') { const n = new Date(); return String(Math.max(0, Math.ceil((new Date(n.getFullYear(), 11, 24) - n) / 864e5))); }
+    const s = S.data.settings.find(x => x.clave === (k === 'fecha_limite' ? 'navidad_fecha_limite' : k));
+    const d = s && /^(\d{4})-(\d{2})-(\d{2})$/.exec(s.valor);
+    return d ? Number(d[3]) + ' de ' + MONTHS[Number(d[2]) - 1] : (s && s.valor) || '—';
+  });
+}
+function heroPreview() {
+  const s = {}, L = LOOK[S.sdraft.color] || LOOK.amarillo, u = drivePreview(S.sdraft.foto);
+  Object.keys(S.sdraft).forEach(k => { s[k] = typeof S.sdraft[k] === 'string' ? fillPv(S.sdraft[k]) : S.sdraft[k]; });
+  return '<div class="hero-pv" id="hpv" style="background:' + L.bg + ';color:' + L.fg + '"><div>' +
+    (s.etiqueta ? '<span class="k">' + esc(s.etiqueta) + '</span>' : '') + '<h2>' + esc(s.titulo || 'Título de la diapositiva') + '</h2>' + (s.texto ? '<p>' + esc(s.texto) + '</p>' : '') +
+    (s.boton ? '<span class="b" style="' + L.b1 + '">' + esc(s.boton) + '</span>' : '') + (s.boton2 ? '<span class="b" style="box-shadow:inset 0 0 0 2px currentColor">' + esc(s.boton2) + '</span>' : '') +
+    '</div><div class="pic" style="' + (u ? 'background-image:url(' + esc(u) + ')' : '') + '">' +
+    (s.sticker ? '<span class="stk" style="' + L.st + '"><span>' + esc(s.sticker) + '<small>' + esc(s.sticker_texto || '') + '</small></span></span>' : '') + '</div></div>';
+}
+function paintSlideEditor() {
+  const el = document.getElementById('seditor'), s = S.sdraft;
+  if (!s) { el.innerHTML = '<p class="empty">Elige una diapositiva o crea una nueva.</p>'; return; }
+  const inp = (k, label, help, wide) => '<label class="f' + (wide ? ' wide' : '') + '"><span>' + label + '</span><input class="in" data-sk="' + k + '" value="' + esc(s[k] || '') + '"><small>' + esc(help) + '</small></label>';
+  const sel = (k, label, opts, help) => '<label class="f"><span>' + label + '</span><select class="in" data-sk="' + k + '">' + opts + '</select><small>' + esc(help) + '</small></label>';
+  el.innerHTML =
+    '<div class="ed-head"><h2>' + esc(s.titulo || 'Diapositiva nueva') + '</h2></div>' + heroPreview() +
+    '<p style="margin:0;color:var(--cacao-2);font-size:13px">Vista previa aproximada. Lindi sale en la web al lado de la foto, con el accesorio que elijas.</p>' +
+    '<div class="switches"><label class="sw"><input type="checkbox" data-sk="publicado"' + (s.publicado ? ' checked' : '') + '><span>Se ve en la web<small>Desmárcala para esconderla sin borrarla.</small></span></label></div>' +
+    '<div class="sec"><h3>Textos</h3><p>Puedes escribir <b>{precio:kit-pizzeria}</b> (precio actual del producto), <b>{dias_navidad}</b> o <b>{fecha_limite}</b>. Si uno queda vacío, la diapositiva no sale.</p><div class="grid">' +
+    inp('etiqueta', 'Etiqueta', 'Texto chico de arriba. Ej.: JUEGO · LA PIZZERÍA') + inp('titulo', 'Título', 'Corto y grande. Ej.: Hoy abre la Pizzería.') +
+    '<label class="f wide"><span>Texto</span><textarea class="in" data-sk="texto">' + esc(s.texto || '') + '</textarea><small>Una o dos frases.</small></label></div></div>' +
+    '<div class="sec"><h3>Botones</h3><div class="grid">' +
+    inp('boton', 'Botón principal', 'Ej.: Pedir la Pizzería · {precio:kit-pizzeria}') + sel('destino', 'Lleva a', destOptions(s.destino), 'Dónde va al tocarlo') +
+    inp('boton2', 'Segundo botón', 'Opcional. Ej.: Ver todo Juego') + sel('destino2', 'Lleva a', destOptions(s.destino2), '') + '</div></div>' +
+    '<div class="sec"><h3>Diseño</h3><div class="grid">' +
+    sel('color', 'Color', S.data.colors.map(c => '<option' + (c === s.color ? ' selected' : '') + '>' + c + '</option>').join(''), 'Fondo del bloque') +
+    sel('accesorio', 'Accesorio de Lindi', S.data.accessories.map(c => '<option' + (c === (s.accesorio || 'ninguno') ? ' selected' : '') + '>' + c + '</option>').join(''), 'Lo que lleva puesto el personaje') +
+    inp('orden', 'Orden', '1 sale primero') +
+    inp('sticker', 'Sticker (círculo)', 'Ej.: {precio:kit-pizzeria} o {dias_navidad}. Vacío = no sale') + inp('sticker_texto', 'Texto del sticker', 'Ej.: DESDE 3 AÑOS') +
+    inp('foto', 'Foto', 'Enlace de Drive compartido (foto horizontal)', true) + '</div></div>' +
+    '<div class="save"><button class="btn dark" data-act="guardarDiapo">' + (s.fila ? 'Guardar cambios' : 'Crear diapositiva') + '</button>' +
+    '<span class="msg" id="msg">' + (S.dirty ? 'Tienes cambios sin guardar' : '') + '</span></div>';
+}
+
 // ---------- Pedidos ----------
 function paintOrders() {
   const f = [['pendiente', 'Por cobrar'], ['pagado', 'Pagados'], ['todos', 'Todos']];
@@ -281,7 +387,15 @@ function paintSettings() {
 
 // ---------- Eventos ----------
 const ACTS = {
-  tab(el) { S.tab = el.dataset.tab; paint(); },
+  // Salir de una pestaña con cambios sin guardar (segundo clic) los descarta.
+  tab(el) { if (S.dirty) { select(S.sel, true); selectSlide(S.sl, true); } S.tab = el.dataset.tab; paint(); },
+  pickSlide(el) { if (guardDirty()) selectSlide(Number(el.dataset.fila)); },
+  nuevaDiapo() { if (guardDirty()) selectSlide(null); },
+  guardarDiapo(el) {
+    if (!String(S.sdraft.titulo || '').trim()) { say('Escribe el título de la diapositiva.', 'err'); return; }
+    say('Guardando…');
+    call('panelGuardarDiapositiva', [S.sdraft], r => { S.data = r.datos; selectSlide(r.fila, true); paint(); say('Guardado. Ya se ve en la web (recárgala).', 'ok'); }, el);
+  },
   filter(el) { S.filter = el.dataset.f; paintList(); },
   ofilter(el) { S.ofilter = el.dataset.f; paintOrders(); },
   pick(el) { if (guardDirty()) select(el.dataset.id); },
@@ -319,19 +433,29 @@ function markDirty() {
 document.addEventListener('click', ev => {
   const el = ev.target.closest('[data-act],[data-tab]');
   if (!el) return;
-  if (el.dataset.tab) { if (S.tab !== 'productos' || guardDirty()) ACTS.tab(el); return; }
+  if (el.dataset.tab) { if (guardDirty()) ACTS.tab(el); return; }
   if (ACTS[el.dataset.act]) ACTS[el.dataset.act](el);
 });
 document.addEventListener('input', ev => {
   const el = ev.target;
   if (el.id === 'q') { S.q = el.value; paintList(); return; }
+  if (el.dataset.sk && S.sdraft) {
+    S.sdraft[el.dataset.sk] = el.type === 'checkbox' ? el.checked : el.value;
+    document.getElementById('hpv').outerHTML = heroPreview();
+    if (el.dataset.sk === 'titulo') document.querySelector('#seditor .ed-head h2').textContent = el.value || 'Diapositiva nueva';
+    markDirty(); return;
+  }
   if (!el.dataset.k || !S.draft) return;
   S.draft[el.dataset.k] = el.type === 'checkbox' ? el.checked : el.value;
   if (el.dataset.k === 'nombre') document.querySelector('.ed-head h2').textContent = el.value || 'Producto nuevo';
   if (el.dataset.k === 'foto') { const pv = document.getElementById('pv'); const u = drivePreview(el.value); pv.style.backgroundImage = u ? 'url(' + u + ')' : ''; pv.textContent = u ? '' : 'Sin foto: la web pone rayitas de color'; }
   markDirty();
 });
-document.addEventListener('change', ev => { if (ev.target.type === 'checkbox' && ev.target.dataset.k) { S.draft[ev.target.dataset.k] = ev.target.checked; markDirty(); } });
+document.addEventListener('change', ev => {
+  if (ev.target.type !== 'checkbox') return;
+  if (ev.target.dataset.k) { S.draft[ev.target.dataset.k] = ev.target.checked; markDirty(); }
+  if (ev.target.dataset.sk) { S.sdraft[ev.target.dataset.sk] = ev.target.checked; markDirty(); }
+});
 // Misma conversión que photoUrl_ de Code.gs, para ver la foto antes de guardar.
 function drivePreview(v) {
   const s = String(v || '').trim();
