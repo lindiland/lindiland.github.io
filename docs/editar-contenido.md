@@ -1,6 +1,6 @@
 # Cómo editar la web (para la dueña)
 
-Todo se edita en la hoja **"Lindi Tienda"** de tu Drive (informes.lindi@gmail.com). No hace falta tocar GitHub ni código. Al guardar, la web cambia al recargarla. Si no cambia, en el menú **Lindi Tienda → Ver cambios en la web**.
+Todo se edita en la hoja **"Lindi Tienda"** de tu Drive (la cuenta de Google de Lindi). No hace falta tocar GitHub ni código. Al guardar, la web cambia al recargarla. Si no cambia, en el menú **Lindi Tienda → Ver cambios en la web**.
 
 ## La forma fácil: el panel
 En la computadora, abre la hoja → menú **Lindi Tienda → Abrir panel**. La primera vez Google pide permiso de nuevo: debe decir que solo usa **esta hoja**.

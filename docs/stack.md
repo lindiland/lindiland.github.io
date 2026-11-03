@@ -6,7 +6,7 @@ Todo gratis, sin dominio y sin pasarela de pago.
 |---|---|---|
 | Página | `site/index.html`: HTML + CSS + JavaScript sin frameworks | Fuentes de Google Fonts: Gluten, Nunito. |
 | Alojamiento | GitHub Pages, publicado con GitHub Actions (`.github/workflows/pages.yml`) | [ADR 0002](adr/0002-github-pages.md). Repositorio público. |
-| Servidor | Google Apps Script ligado a la hoja "Lindi Tienda" (`gas/`), web app pública | [ADR 0001](adr/0001-web-separada-de-lindi-os.md). Cuenta dueña: informes.lindi@gmail.com. |
+| Servidor | Google Apps Script ligado a la hoja "Lindi Tienda" (`gas/`), web app pública | [ADR 0001](adr/0001-web-separada-de-lindi-os.md). Cuenta dueña: la cuenta de Google de Lindi (`TIENDA_CUENTA` en `.env`; el correo no va en el repositorio público). |
 | Datos | Hoja "Lindi Tienda": pestañas Catálogo y Solicitudes | [ADR 0004](adr/0004-solicitudes-fuera-de-lindi-os.md). |
 | Fotos | Drive de Lindi, compartidas como "cualquiera con el enlace" | El script no usa Drive: solo convierte el enlace en miniatura. |
 | Pedido | Enlace `wa.me` con el mensaje armado | [ADR 0003](adr/0003-whatsapp-sin-pasarela.md). |

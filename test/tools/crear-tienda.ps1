@@ -1,5 +1,5 @@
 # Crea UNA VEZ la hoja "Lindi Tienda" con su Apps Script ligado y sube gas/ (docs/publicar.md, paso 1).
-# Corre en la terminal de la dueña (sesión de clasp de informes.lindi@gmail.com). Uso: & .\test\tools\crear-tienda.ps1
+# Corre en la terminal de la dueña (sesión de clasp de la cuenta de Google de Lindi). Uso: & .\test\tools\crear-tienda.ps1
 # clasp create puede reemplazar appsscript.json con el de Google (sin los permisos limitados): se guarda y se restaura.
 $ErrorActionPreference = 'Stop'
 $gas = Join-Path $PSScriptRoot '..\..\gas' | Resolve-Path

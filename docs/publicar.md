@@ -3,7 +3,7 @@
 Ids y enlaces reales en `.env` (no se sube). La web es pública: el enlace /exec va en `CONFIG.api` de `site/index.html`; el número de WhatsApp y todo el contenido se editan en la hoja ([editar-contenido.md](editar-contenido.md)).
 
 ## Primera vez (la dueña, un paso a la vez)
-1. **Script y hoja** (sesión de clasp de informes.lindi@gmail.com), en PowerShell desde `lindi-web\gas`:
+1. **Script y hoja** (sesión de clasp de la cuenta de Google de Lindi, `TIENDA_CUENTA` en `.env`), en PowerShell desde `lindi-web\gas`:
    ```
    clasp.cmd create --type sheets --title "Lindi Tienda" --rootDir .
    clasp.cmd push --force
